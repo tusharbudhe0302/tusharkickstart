@@ -286,10 +286,10 @@ treeNode {
     - PostOrder + PreOrder (**Not** Possible)
     - 
 ####  Class Problems 
+- Level Order
 
-    #### 
 ```javascript
-levelOrder() {
+const levelOrder = ()=> {
 		let queue = [];
 		let result = [];
 		queue.unshift({
@@ -320,7 +320,7 @@ levelOrder() {
 ```
 
 ```javascript
-rightSideViewTushar() {
+const rightSideViewTushar = ()=> {
 		let queue = [];
 		let result = [];
 		queue.unshift({
@@ -349,7 +349,7 @@ rightSideViewTushar() {
 	}
 ```
 ```javascript
-rightSideView() {
+const rightSideView = () => {
 		let queue = [];
 		let result = [];
 		queue.unshift({
@@ -379,7 +379,7 @@ rightSideView() {
 		console.log(result);
 	}
 ```
-- 
+- Has Sum Of Path True Or False
 ```javascript
 var hasPathSum = function(root, targetSum) {
 		let result = false;
@@ -399,6 +399,9 @@ var hasPathSum = function(root, targetSum) {
 		}
 		return dfs(root, targetSum);
 	};
+```	
+- hasPathSumII
+```javascript	
 	var hasPathSumII = function(root, targetSum) {
 		let result = [];
 		if (!root) return result;
@@ -421,6 +424,7 @@ var hasPathSum = function(root, targetSum) {
 		return dfs(root, targetSum,[]);
 	};
 ```
+- Diameter Of BST
 ```javascript
 	const diameterOfBST = (root) => {
 	let result = 0;
@@ -441,7 +445,7 @@ var hasPathSum = function(root, targetSum) {
 			right = dfs(node.right);
 			diameter += right;
 		}
-// 		console.log(`result: ${result}`);
+ 		console.log(`result: ${result}`);
 		result = Math.max(result, diameter);
 		return Math.max(left, right) + 1;
 	}
@@ -450,8 +454,10 @@ var hasPathSum = function(root, targetSum) {
 
 }
 ```
+- Unique Value Sub Tree
+
 ```jvascript
-	const uniValueCount = (node) => {
+const uniValueCount = (node) => {
 
 	let result = 0;
 	if (!node) return result;
@@ -491,51 +497,43 @@ var hasPathSum = function(root, targetSum) {
 }
 ```
 	
-	### 652 : Find duplicate Leetcode N2L4R5
+### 652 : Find duplicate Leetcode N2L4R5
 	
-	```javascript
+```javascript
 	function createTree(input) {
 	// find the root
     let root = new TreeNode(findRoot(input))
-
-let	leftInput = findLeftInput(input, root);
-let rightInput = findRightInput(input, root);
-
+    let	leftInput = findLeftInput(input, root);
+    let rightInput = findRightInput(input, root);
 	root.left = createTree(leftInput);
 	root.right = createTree(rightInput);
 }
-
 function findRoot(input) {
 	return root;
 }
-
 function findLeftInput(input, root) {
 	return leftInput;
 }
-
 function findRightInput(input, root) {
 	return rightInput;
 }
+```
+- Construct BST from PreOrder Of BST
 
-	```
-
-
-	function treeNode(i) {
+```javascript
+function treeNode(i) {
 	this.val = i;
 	this.left = null;
 	this.right = null;
 }
-
 const constructBSTTushar = (preorder, start = 0, end = preorder.length - 1) => {
 	// base case
 	if (start > end) {
 		return null;
 	}
-
 	// Construct the root node of the subtree formed by keys of the
 	// preorder sequence in range `[start, end]`
 	let node = new treeNode(preorder[start]);
-
 	// search the index of the first element in the current range of preorder
 	// sequence larger than the root node's value
 	let i;
@@ -544,14 +542,12 @@ const constructBSTTushar = (preorder, start = 0, end = preorder.length - 1) => {
 			break;
 		}
 	}
-
 	// recursively construct the left subtree
 	node.left = constructBST(preorder, start + 1, i - 1);
-
 	// recursively construct the right subtree
 	node.right = constructBST(preorder, i, end);
-
 	// return current node
 	return node;
 }
 console.log(constructBST([8, 5, 1, 7, 10, 9, 12]));
+```
