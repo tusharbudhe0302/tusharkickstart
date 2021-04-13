@@ -40,8 +40,9 @@ console.log(selectionSort([9, 2, 7, 5, 4, 6]));
 const bubbleSort = (a) => {
   const n = a.length;
   let isSwapped = false;
-  for (let i = 0; i < n - 2; i++) {
+  for (let i = 0; i < n - 1; i++) {
     isSwapped = false;
+    // It should be n-1 not n-2
     for (let j = 0; j < n - 1; j++) {
       if (a[j] > a[j + 1]) {
         [a[j], a[j + 1]] = [a[j + 1], a[j]];
@@ -63,17 +64,18 @@ console.log(bubbleSort([9, 2, 7, 5, 4, 6]));
 - There are 3 ways
   1. top-down approach (**Recursion**)
   ```javascript
-  const insertionSort = (a, n) => {
-    if (n <= 1) return a;
+  const insertionSort = (a, n = a.length) => {
+    if (n < 1) return a;
     insertionSort(a, n - 1);
     let j = n - 1;
     while (j >= 1 && a[j] > a[j + 1]) {
       [a[j], a[j + 1]] = [a[j + 1], a[j]];
       j = j - 1;
     }
+    if (a[j] > a[j + 1])[a[j], a[j + 1]] = [a[j + 1], a[j]];
     return a;
-  };
-  console.log(insertionSort([1, 2, 3, 5, 6, 7, 4], 7));
+  }
+  console.log(insertionSort([1, 2, 3, 5, 6, 7, 4], 7)); //15, 8, 4, 9, 16, 12
   ```
   2. bottom-up approch(**Iterative**)
   ```javascript

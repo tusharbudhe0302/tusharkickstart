@@ -184,10 +184,10 @@ console.log(allPossibleBinaryString(3));
  - Repetation allowed (2^n(n))
  - Space O(2^n) BFS Best Solution
 ```javascript
-const binarySearchTree =(n)=>{
+const numberToBinaryString =(n)=>{
 	if(n===1) return ['0','1'];
 	if(n>1){
-		let prev = binarySearchTree(n-1);
+		let prev = numberToBinaryString(n-1);
 		let result = [];
 		for(let s of prev){
 			result.push(`${s}0`);
@@ -197,12 +197,12 @@ const binarySearchTree =(n)=>{
 	}
 }
 
-console.log(binarySearchTree(4));
+console.log(numberToBinaryString(4));
 ```
-- Iterative approach BFS
-```javascrip
+- Iterative approach *BFS * Best Solution
+```javascript
 let result = [];
-const binarySearchTree = (n) => {
+const numberToBinaryString = (n) => {
 	result = ['0', '1'];
 	for (let i = 2; i < n; i++) {
 		let newResult = [];
@@ -214,53 +214,51 @@ const binarySearchTree = (n) => {
 	}
 	return result;
 }
-console.log(binarySearchTree(4));
+console.log(numberToBinaryString(4));
 ```
-- Tushar solution need tyo optimized
+- Tushar solution, working as expected but it's anti-pattern.
 ```javascript
-const binarySearchTree = (n, combination = [], result = []) => {
-	if (combination.length === n) result.push(combination.slice());
-	else {
-		for (let i = 0; i < n; i++) {
-			combination.push('0');
-			binarySearchTree(n, combination, result);
-			combination.pop();
-			combination.push('1');
-			binarySearchTree(n, combination, result);
-			combination.pop();
-		}
+const numberToBinaryString = (n, combination = [], result = []) => {
+	if (combination.length >= n) result.push(combination.slice());
+	else if (combination.length < n) {
+		combination.push('0');
+		numberToBinaryString(n, combination, result);
+		combination.pop();
+		combination.push('1');
+		numberToBinaryString(n, combination, result);
+		combination.pop();
 	}
 	return result;
 }
-console.log(binarySearchTree(4));
+console.log(numberToBinaryString(3));
 ```
 - Optimized solution - DFS Solution - Merge sort Divide & Conquer
 -  Space O(n) or (Log(2^n))
 - Time O(n);
 ```javascript
-const binarySearchTree = (n,slate='',result=[])=>{
+const numberToBinaryString = (n,slate='',result=[])=>{
 	if(n==0) result.push(slate);
 	else{
-		binarySearchTree(n-1,`${slate}0`,result); // left tree
-		binarySearchTree(n-1,`${slate}1`,result); // right tree
+		numberToBinaryString(n-1,`${slate}0`,result); // left tree
+		numberToBinaryString(n-1,`${slate}1`,result); // right tree
 	}
 	return result;
 }
-console.log(binarySearchTree(4));
+console.log(numberToBinaryString(4));
 ```
 - All Combination form 0 to 9
 ```javascript
-const binarySearchTree = (n, slate = '', result = []) => {
+const numberToBinaryString = (n, slate = '', result = []) => {
 	if (n == 0) result.push(slate);
 	else {
 		for (let i = 0; i < 10; i++) {
-			binarySearchTree(n - 1, `${slate}${i}`, result);
+			numberToBinaryString(n - 1, `${slate}${i}`, result);
 		}
 	}
 	return result;
 }
 
-console.log(binarySearchTree(4));
+console.log(numberToBinaryString(4));
 ```
 
 #### Repetation not allowed
