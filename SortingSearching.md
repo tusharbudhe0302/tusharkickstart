@@ -90,7 +90,7 @@ console.log(bubbleSort([9, 2, 7, 5, 4, 6]));
   };
   console.log(insertionSort([1, 2, 3, 5, 6, 7, 4], 7));
   ```
-  3. Create holeIndex (**Iterative**)
+  3. Create holeIndex (**Iterative**) Decrease & Conquer algorithm
      - using temporary variable, move bigger element to right decrease holeIndex
      - swap temp with holeIndex
   ```javascript

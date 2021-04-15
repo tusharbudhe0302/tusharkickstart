@@ -525,13 +525,10 @@ var addOperators = (num, target) => {
             res.push(exp);
             return;
         } else {
-            for (var i = 1; i <= nums.length; i++) {
+            for (var i = 0; i < nums.length; i++) {
                 var head = nums.substring(0, i);
                 var tail = nums.substring(i, nums.length);
                 var curr = parseInt(head) || 0;
-                if (head.length >= 2 && head[0] === "0") {
-                    return;
-                }
                 if (exp === "") {
                     compute(tail, head, curr, curr);
                 }

@@ -541,3 +541,82 @@ console.log(canFinishII(2, [
 //     [0, 1]
 // ])); //1
 ```
+
+- 
+
+```javascript
+
+/*
+ * Complete the function below.
+ */
+function string_transformation(words, start, stop) {
+    const set = new Set(words);
+    set.add(stop).add(start);
+    const queue = [];
+    const parents = {};
+    const visited = new Set();
+    let output = [];
+    const alpha = "abcdefghijklmnopqrstuvwxyz";
+    
+    const getNei = word => {
+        const arr = [];
+        if (words.length <= 26) {
+            for (let other of set) {
+                let diff = 0;
+                for (let i = 0; i < word.length; i++) {
+                    if (other[i] !== word[i]) diff++;
+                }
+                if (diff === 1) arr.push(other);
+            }
+        } else {
+            for (let i = 0; i < word.length; i++) {
+                for (let a of alpha) {
+                    if (word[i] === a) continue;
+                    const newW = word.slice(0, i) + a + word.slice(i+1);
+                    if (set.has(newW)) arr.push(newW);
+                }
+            }
+        }
+        return arr;
+    }
+    
+    
+    const bfs = sWord => {
+        queue.push(sWord);
+        while (queue.length) {
+            const curr = queue.shift();
+            const neighbors = getNei(curr);
+            console.log(`curr: ${curr} `);
+            console.log(`neighbors: ${neighbors} parents:${parents}`);
+            for (let n of neighbors) {
+                if (visited.has(n)) continue;
+                visited.add(n);
+                parents[n] = curr;
+                if (n === stop) {
+                    
+                    return;
+                }
+                queue.push(n);
+            }
+        }
+    }
+    
+    const dfs = (word) => {
+        if (!word) return;
+        output.unshift(word);
+        if (word === start && output.length > 1) return;
+        dfs(parents[word]);
+    }
+    
+    bfs(start);
+    
+    // console.log(parents)
+    dfs(stop);
+    
+    return output.length > 1 ? output : ['-1']
+}
+
+let words = ["cat", "hat", "bad", "had"],start = "bat",stop = "had";
+
+console.log(string_transformation(words, start, stop));
+```
