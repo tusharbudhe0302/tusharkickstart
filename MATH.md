@@ -10,3 +10,6 @@ Harmonic series:
 - `1/1,1/2,1/3,1/4,......,1/n` : 
 
 
+
+- **Note** - Ө(n^2) = O(n^2) & O(n^2) != Ө(n^2)
+  If the running time of an algorithm is Ө(n), that means it roughly runs in time cn for some constant c. If the running time of an algorithm is O(n), that means it runs in time at most c’n for some constant c’. This means if T(n) = Ө(n^2), then T(n) is also O(n^2). - 2log2n is (assuming log has a base of 2) : n - log2(2^h) : h
