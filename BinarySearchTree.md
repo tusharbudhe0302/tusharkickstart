@@ -173,7 +173,6 @@ class binarySearchTree {
 	preOrderIterative(root){
 	    
 	}
-
 	inOrderSucessor(root, p) {
 		if (!root) return null;
 		if (p.right) {
@@ -236,6 +235,101 @@ treeNode {
     right: treeNode { val: 9, left: null, right: null }
   }
 }
+```
+```javascript
+class TreeNode {
+	constructor(i) {
+		this.val = i;
+		this.left = null;
+		this.right = null;
+	}
+}
+let treeNode = new TreeNode(15);
+treeNode.left = new TreeNode(17);
+treeNode.right = new TreeNode(19);
+treeNode.left.left = new TreeNode(12);
+treeNode.left.right = new TreeNode(21);
+treeNode.right.left = new TreeNode(18);
+
+const inOrderIterative = (node) => {
+	let p = node;
+	var stack = [];
+	while (p || stack.length > 0) {
+		while (p) {
+			stack.push(p);
+			p = p.left;
+		}
+		p = stack.pop(); // Must assignback `p`
+		if (p) {
+			console.log(p.val);
+			p = p.right;
+		}
+	}
+}
+inOrderIterative(treeNode);
+const preOrder = (node) => {
+	var stack = [];
+	var p = node;
+	stack.push(p);
+	while (p || stack.length > 0) {
+		p = stack.pop();
+		if (p)
+			console.log(p.val);
+		if (p && p.right) stack.push(p.right);
+		if (p && p.left) stack.push(p.left);
+	}
+}
+preOrder(treeNode);
+
+// Using 2 stack pointer
+const postorderIterative = (root) => {
+	// create an empty stack and push the root node
+	var s = [];
+	s.push(root);
+	// create another stack to store postorder traversal
+	var out = [];
+	// loop till stack is empty
+	while (s.length > 0) {
+		// pop a node from the stack and push the data into the output stack
+		var curr = s.pop();
+		// console.log(curr);
+		out.push(curr.val);
+		// push the left and right child of the popped node into the stack
+		if (curr.left) {
+			s.push(curr.left);
+		}
+		if (curr.right) {
+			s.push(curr.right);
+		}
+	}
+	// print postorder traversal
+	while (out.length > 0) {
+		let temp = out.pop();
+		console.log(temp);
+	}
+}
+const postOrderByMorris = (node) => {
+	var p = node;
+	var q = node;
+	var stack = [];
+	while (p||s.length > 0) {
+		while (p.left) {
+			stack.unshift(p);
+			p = p.left;
+		}
+		while (!p.right || p.right == q) {
+			console.log(p.val);
+			q = p;
+			if (stack.length === 0) return; // maske sure you return from here
+			p = stack.shift();
+		}
+		stack.unshift(p);
+		p = p.right;
+	}
+}
+postorderIterative(treeNode);
+console.log(`++++=+++++`)
+postOrderByMorris(treeNode);
 ```
 - Sucessor & Predecessor in BST
     Create inorder of BST You will get BST in sorted order
@@ -313,10 +407,8 @@ const levelOrder = ()=> {
 			// if(node.left)queue.push({node:node.left,level:level+1});
 			// if(node.right)queue.push({node:node.right,level:level+1});
 		}
-
 		console.log(result);
 	}
-	
 ```
 
 ```javascript
@@ -344,7 +436,6 @@ const rightSideViewTushar = ()=> {
 				node: node.left, level: level + 1
 			});
 		}
-
 		console.log(result);
 	}
 ```
@@ -364,8 +455,6 @@ const rightSideView = () => {
 				result[level] = [];
 			}
 			result[level].push(node.val);
-
-
 			if (node.left) queue.unshift({
 				node: node.left, level: level + 1
 			});
