@@ -19,7 +19,7 @@ the product instances being created by the factory
 declares an interface for the products that are being created
 
 
-![javascript-abstract-factory](./javascript-abstract-factory.jpeg)
+![javascript-abstract-factory](./images/javascript-abstract-factory.jpg)
 
 ```javascript
 // abstract factory pattern
