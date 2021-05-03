@@ -3,7 +3,7 @@ Construct|BST| BT
 ---|---|---|
 PreOrder| Yes |NO|
 InOrder| NO |NO|
-PostOrder| NO |NO|
+PostOrder| Yes |NO|
 PreOrder + PostOrder| NO |NO|
 PreOrder + InOrder | NO |Yes|
 PostOrder + InOrder| NO |Yes|
@@ -17,12 +17,19 @@ function treeNode(i) {
 	this.left = null;
 	this.right = null;
 }
+class TreeNode {
+	constructor(i) {
+		this.val = i;
+		this.left = null;
+		this.right = null;
+	}
+}
 ```
 - Insert element in BST using JS **proptype without previous pointer. Can't miss break statment** approach
 ```javascript
 var binarySearchTree = function() {
 	this.root = null;
-};
+}();
 binarySearchTree.prototype.insertItem = function(i) {
 	if (!this.root) return this.root = new treeNode(i);
 	var p = this.root;
@@ -43,6 +50,72 @@ binarySearchTree.prototype.insertItem = function(i) {
 	}
 	return this.root;
 }
+```
+- Trie data structure Algorithm
+```javascript
+let trieNode = function () {
+	this.node_key = new Map();
+	this.end = false;
+	this.setEnd = function () {
+		this.end = true;
+	}
+	this.isEnd = function () {
+		return this.end;
+	}
+}
+```
+- Smple Example
+```javascript
+let trie = function () {
+	this.root = new trieNode(); // Empty Object First
+	this.add = function (input, trie_node = this.root) {
+		if (input.length === 0) {
+			trie_node.setEnd();
+			// console.log(trie_node.isEnd());
+			return;
+			//trie_node.node_key make sure you are reaching correct property
+		} else if (!trie_node.node_key.has(input[0])) {
+			trie_node.node_key.set(input[0], new trieNode());
+			return this.add(input.substr(1), trie_node); // don't forget return
+		} else {
+			return this.add(input.substr(1), trie_node.node_key.get(input[0])); // don't forget return 
+		}
+	};
+	this.isWord = function (input) {
+		var trie_node = this.root;
+		var word = input;
+		while (word.length > 1) {
+			if (!trie_node.node_key.has(word[0])) return false;
+			else {
+				trie_node = trie_node.node_key.get(word[0]);
+				word = word.substr(1);
+			}
+		}
+		return trie_node.node_key.has(word[0]) && trie_node.isEnd() ? true : false;
+	}
+	this.printAll = function () {
+		var words = new Array();
+		var Search = function (trie_node, suffixStr) {
+			if (trie_node.node_key.size != 0 || !trie_node.isEnd()) {
+				for (let char of trie_node.node_key.keys()) {
+					Search(trie_node.node_key.get(char), suffixStr.concat(char));
+				}
+				words.push(suffixStr)
+			}
+		};
+		Search(this.root, new String());
+		return words;
+	}
+}
+var trieSearch = new trie();
+
+trieSearch.add("ba");
+trieSearch.add("baz");
+trieSearch.add("bbbb");
+console.log(trieSearch.isWord("baz")); //true
+console.log(trieSearch.isWord("ba")); //true
+console.log(trieSearch.isWord("bbbb")); //false
+// console.log(trieSearch.printAll());
 ```
 - Insert element in BST using JS **proptype using previous pointer** approach
 ```javascript
@@ -93,34 +166,13 @@ var binarySearchTree = function() {
 	}
 }
 ```
+
 - ES6 Classes
+
 ```javascript
-class treeNode {
-	constructor(i) {
-		this.val = i;
-		this.left = null;
-		this.right = null;
-	}
-}
 class binarySearchTree {
 	constructor() {
 		this.root = null;
-	}
-	insert(i) {
-		if (!this.root) return this.root = new treeNode(i);
-		let p = this.root;
-		let _prev = null;
-		while (p) {
-			_prev = p;
-			if (i <= p.val) {
-				p = p.left;
-			} else {
-				p = p.right;
-			}
-		}
-		if (i <= _prev.val) _prev.left = new treeNode(i);
-		else _prev.right = new treeNode(i);
-		return this.root;
 	}
 	insertRecursiveHelper(_current, newNode) {
 		// console.log(_current);
@@ -142,16 +194,6 @@ class binarySearchTree {
 		this.insertRecursiveHelper(this.root, newNode);
 		return this.root;
 	}
-	minimum(node) {
-		if (node.left)
-			minimum(node.left);
-		else node
-	}
-	maximum(node) {
-		if (node.right)
-			minimum(node.right);
-		else return node
-	}
 	preOrder(root) {
 		if (!root) return;
 		console.log(root.val);
@@ -170,9 +212,7 @@ class binarySearchTree {
 		preOrder(root.right);
 		console.log(root.val);
 	}
-	preOrderIterative(root){
-	    
-	}
+
 	inOrderSucessor(root, p) {
 		if (!root) return null;
 		if (p.right) {
@@ -199,51 +239,10 @@ let bst = new binarySearchTree();
 bst.insertRecursive(44);
 bst.insertRecursive(17);
 bst.insertRecursive(88);
-bst.insertRecursive(8);
-bst.insertRecursive(32);
-bst.insertRecursive(65);
-bst.insertRecursive(97);
-bst.insertRecursive(28);
-bst.insertRecursive(54);
-bst.insertRecursive(82);
-bst.insertRecursive(93);
-bst.insertRecursive(29);
-bst.insertRecursive(76);
-bst.insertRecursive(80);
-// let resultTemp = bst.insertRecursive(2);
-// console.log(resultTemp);
 ```
-- OP Will be same for all cases
+
 ```javascript
-let bst = new binarySearchTree();
-bst.insertItem(5);
-bst.insertItem(7);
-bst.insertItem(9);
-bst.insertItem(4);
-let resultTemp = bst.insertItem(2);
-console.log(resultTemp);
-treeNode {
-  val: 5,
-  left: treeNode {
-    val: 4,
-    left: treeNode { val: 2, left: null, right: null },
-    right: null
-  },
-  right: treeNode {
-    val: 7,
-    left: null,
-    right: treeNode { val: 9, left: null, right: null }
-  }
-}
-```
-```javascript
-class TreeNode {
-	constructor(i) {
-		this.val = i;
-		this.left = null;
-		this.right = null;
-	}
-}
+
 let treeNode = new TreeNode(15);
 treeNode.left = new TreeNode(17);
 treeNode.right = new TreeNode(19);
@@ -331,6 +330,7 @@ postorderIterative(treeNode);
 console.log(`++++=+++++`)
 postOrderByMorris(treeNode);
 ```
+
 - Sucessor & Predecessor in BST
     Create inorder of BST You will get BST in sorted order
     - Sucessor/Ancestor (Next) element . Leftmost element in right sub tree or parent of this item itself
@@ -411,34 +411,7 @@ const levelOrder = ()=> {
 	}
 ```
 
-```javascript
-const rightSideViewTushar = ()=> {
-		let queue = [];
-		let result = [];
-		queue.unshift({
-			node: this.root, level: 0
-		});
-		while (queue.length > 0) {
-			let item = queue.pop();
-			// let item = queue.shift();
-			let node = item.node;
-			let level = item.level;
-			if (result.length < level + 1) {
-				result[level] = [];
-			}
-			if (result[level].length < 1)
-				result[level].push(node.val);
 
-			if (node.right) queue.unshift({
-				node: node.right, level: level + 1
-			});
-			else if (node.left) queue.unshift({
-				node: node.left, level: level + 1
-			});
-		}
-		console.log(result);
-	}
-```
 ```javascript
 const rightSideView = () => {
 		let queue = [];
@@ -469,27 +442,36 @@ const rightSideView = () => {
 	}
 ```
 - Has Sum Of Path True Or False
+
 ```javascript
 var hasPathSum = function(root, targetSum) {
-		let result = false;
-		if (!root) return result;
-		const isLeaf = (node) => {
-			return !node.left && !node.right;
+	let result = false;
+	let resultSum = 0;
+	if (!root) return result;
+	const isLeafNode = (node) => {
+		return !node.left && !node.right
+	}
+	// Path always tart with root element
+	const dfs = (node, targetSum) => {
+		targetSum -= node.val ? node.val : 0; // preorder of BT
+		console.log(`node.val ${node.val} targetSum: ${targetSum}`);
+		if (isLeafNode(node) && targetSum === 0) {
+			result = true;
 		}
-		const dfs = (node, target) => {
-			if (result) return true;
-			target -= node.val;
-			if (isLeaf(node) && target === 0) {
-				result = true;
-				return;
-			}
-			if (node.left) dfs(node.left, target);
-			if (node.right) dfs(node.right, target)
-		}
-		return dfs(root, targetSum);
-	};
+		if (node.left)
+			dfs(node.left, targetSum)
+		if (node.right)
+			dfs(node.right, targetSum);
+
+	}
+	dfs(root, targetSum, root.val);
+
+	return result;
+};
+
 ```	
 - hasPathSumII
+
 ```javascript	
 	var hasPathSumII = function(root, targetSum) {
 		let result = [];
@@ -513,7 +495,9 @@ var hasPathSum = function(root, targetSum) {
 		return dfs(root, targetSum,[]);
 	};
 ```
+
 - Diameter Of BST
+
 ```javascript
 	const diameterOfBST = (root) => {
 	let result = 0;
@@ -540,50 +524,44 @@ var hasPathSum = function(root, targetSum) {
 	}
 	dfs(root);
 	return result;
-
 }
 ```
 - Unique Value Sub Tree
 
-```jvascript
-const uniValueCount = (node) => {
-
+```javascript
+var countUnivalSubtrees = function(root) {
 	let result = 0;
-	if (!node) return result;
-
+	const isLeafNode = (n) => {
+		return !n.left && !n.right;
+	};
 	const dfs = (node) => {
-		if (isLeaf(node)) {
+		if (isLeafNode(node)) {
 			result++;
 			return true;
 		}
-		let left = null,
-			right = null;
+		let left = null;
+		let right = null;
 		if (node.left)
 			left = dfs(node.left);
 		if (node.right)
 			right = dfs(node.right);
-            
-		if (left && right && node.val == node.left.val && node.val == node.right.val) {
-		    console.log(`${node.val}`);
+		if (left && right && node.val === node.left.val && node.val === node.right.val) {
 			result++;
 			return true;
 		}
-
-		if (left == null && right && node.val == node.right.val) {
-		     console.log(`left: ${node.val} result: ${result}`);
+		if (left && !right && node.val === node.left.val) {
 			result++;
 			return true;
 		}
-		if (right == null && left && node.val == node.left.val) {
-		     console.log(`right: ${node.val}`);
+		if (!left && right && node.val === node.right.val) {
 			result++;
 			return true;
 		}
-        return false;
+		return false;
 	}
-	dfs(node);
+	df(root);
 	return result;
-}
+};
 ```
 	
 ### 652 : Find duplicate Leetcode N2L4R5
@@ -607,6 +585,7 @@ function findRightInput(input, root) {
 	return rightInput;
 }
 ```
+
 - Construct BST from PreOrder Of BST
 
 ```javascript
@@ -640,3 +619,29 @@ const constructBSTTushar = (preorder, start = 0, end = preorder.length - 1) => {
 }
 console.log(constructBST([8, 5, 1, 7, 10, 9, 12]));
 ```
+
+- Construct BST from preorder & inorder
+
+```javascript
+var buildTree = function(preorder, inorder) {
+	const helper = (preStart, inStart, inEnd, preorder, inorder) => {
+    if (preStart > preorder.length - 1 || inStart > inEnd) return null;
+    let root = new TreeNode(preorder[preStart]);
+    let inIndex = 0;
+    for (let i = inStart; i <= inEnd; i ++) {
+        if (root.val == inorder[i]) inIndex = i;
+    }
+    root.left = helper(preStart + 1, inStart, inIndex - 1, preorder, inorder);
+    root.right = helper(preStart + inIndex - inStart + 1, inIndex + 1, inEnd, preorder, inorder);
+	
+    return root;
+	}
+   return helper(0, 0, inorder.length - 1, preorder, inorder)
+ 
+};
+
+```
+
+### Questions need to unserstand
+1. https://leetcode.com/problems/path-sum-iv/
+2. https://uplevel.interviewkickstart.com/resource/rc-codingproblem-10344-117834-51-322
