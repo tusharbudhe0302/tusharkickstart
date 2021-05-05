@@ -169,7 +169,7 @@ towerOfHoni(3, "A", "C", "B");
 #### Binary Search tree
 - Tushar Solution Need optimization
 ```javascript
-const allPossibleBinaryString = (n, postion = 0, s = []) => {
+const allPossibleBinaryString = (n, postion = 0, s = '') => {
 	if (postion >= n) {
 		console.log(s);
 		return;
@@ -179,7 +179,7 @@ const allPossibleBinaryString = (n, postion = 0, s = []) => {
 		allPossibleBinaryString(n, postion + 1, `${s}1`);
 	}
 }
-console.log(allPossibleBinaryString(3));
+console.log(allPossibleBinaryString(3));// 000,001,010,111....
 ```
  - Repetation allowed (2^n(n))
  - Space O(2^n) BFS Best Solution
@@ -197,7 +197,7 @@ const numberToBinaryString =(n)=>{
 	}
 }
 
-console.log(numberToBinaryString(4));
+console.log(numberToBinaryString(3));//000,001,010
 ```
 - Iterative approach *BFS * Best Solution
 ```javascript
@@ -230,7 +230,7 @@ const numberToBinaryString = (n, combination = [], result = []) => {
 	}
 	return result;
 }
-console.log(numberToBinaryString(3));
+console.log(numberToBinaryString(3)); //000,010,011,111....
 ```
 - Optimized solution - DFS Solution - Merge sort Divide & Conquer
 -  Space O(n) or (Log(2^n))
@@ -353,8 +353,10 @@ const allSets = (input, position = 0, slate = [], result = []) => {
 	}
 	return result;
 }
-console.log(allSets([1, 2, 2]));
-allSets([1, 2, 1]) // Make sure you sort it first.
+console.log(allSets([1, 2, 2])); //[ [ 1, 2, 2 ], [ 1, 2 ], [ 2, 2 ], [ 2 ] ] No repetion
+console.log(allSets([1, 2, 1])); //[ [ 1, 2, 1 ], [ 1, 2 ], [ 1, 1 ], [ 1 ],[ 2, 1 ], [ 2 ],[ 1 ],[]] // repetition is allowed.
+console.log(allSets([1, 1, 2]));// Just Sort abve array [ [ 1, 1, 2 ], [ 1, 1 ], [ 1, 2 ], [ 1 ] ]
+
 ```
 
 #### Backtrack all Sets of Numbers

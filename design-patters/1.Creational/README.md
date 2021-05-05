@@ -423,3 +423,82 @@ function run() {
 }
 run();
 ```
+
+#### prototype Pattern
+The Prototype Pattern creates new objects, but rather than creating non-initialized objects it returns objects that are initialized with values it copied from a prototype - or sample - object. The Prototype pattern is also referred to as the Properties pattern.
+
+An example of where the Prototype pattern is useful is the initialization of business objects with values that match the default values in the database. The prototype object holds the default values that are copied over into a newly created business object.
+
+Classical languages rarely use the Prototype pattern, but JavaScript being a prototypal language uses this pattern in the construction of new objects and their prototypes.
+
+![prototype-pattern](./images/prototype.PNG)
+
+Participants
+The objects participating in this pattern are:
+
+- Client -- In sample code: the run() function.
+creates a new object by asking a prototype to clone itself
+- Prototype -- In sample code: CustomerPrototype
+creates an interfaces to clone itself
+- Clones -- In sample code: Customer
+the cloned objects that are being created
+
+```javascript
+class customer {
+	constructor(first, last, status) {
+		this.first = first;
+		this.last = last;
+		this.status = status;
+	}
+	say() {
+		console.log(`first: ${this.first}, last: ${this.last}, staus: ${this.staus}`);
+	}
+}
+class customerPrototype {
+	constructor(proto) {
+		this.proto = proto;
+	}
+	cloneObject() {
+		const newCustomer = new customer();
+		newCustomer.first = this.proto.first;
+		newCustomer.last = this.proto.last;
+		newCustomer.staus = this.proto.status;
+		return newCustomer;  // Don't forget to return
+		}
+}
+const run = () => {
+	const customerObject = new customer("tushar", "budhe", "pending");
+	const protoObject = new customerPrototype(customerObject);
+	const protoObjectExecute =	protoObject.cloneObject(); // Don't forget to clone Object
+	protoObjectExecute.say();
+}
+run();
+```
+
+```javascript
+function customer(first, last, status) {
+	this.first = first;
+	this.last = last;
+	this.status = status;
+	this.say = function() {
+		console.log(`first: ${this.first}, last: ${this.last}, staus: ${this.staus}`);
+	}
+}
+function customerPrototype(proto) {
+	this.proto = proto;
+	this.cloneObject= function() {
+		var newCustomer = new customer();
+		newCustomer.first = this.proto.first;
+		newCustomer.last = this.proto.last;
+		newCustomer.staus = this.proto.status;
+		return newCustomer;
+	}
+}
+function run() {
+	var customerObject = new customer("tushar", "budhe", "pending");
+	var protoObject = new customerPrototype(customerObject);
+	var protoObjectExecute = protoObject.cloneObject();
+	protoObjectExecute.say();
+}
+run();
+```
