@@ -1,0 +1,1 @@
+Fenwick Tree or Binary Indexed Tree

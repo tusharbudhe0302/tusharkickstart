@@ -1,4 +1,6 @@
+
 ##### Lazy Manager fund raise problem
+
 - O(n) or  θlog10(n)
 - Permutaion (`Order Matters`)
   - No repetation
