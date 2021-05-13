@@ -1,45 +1,83 @@
-const buildBadMatchPattern = (p) => {
-	let badMatchObject = new Map();
-	let max = 0;
-	let pl = p.length;
-	for (let i = 0; i < pl; i++) {
-		max = (max, pl - i - 1); // logic to set 
-		badMatchObject.set(p[i], max);
+function minimum_window(s, t) {
+	// Write your code here
+
+	let tL = t.length;
+	let sL = s.length;
+	let mapForT = {};
+	let mapForS = {};
+	let minLength = sL + 1;
+	let currentChar = '';
+	for (currentChar of t) {
+		if (!mapForT.hasOwnProperty(currentChar))
+			mapForT[currentChar] = 0;
+		else
+			mapForT[currentChar] = mapForT[currentChar] + 1;
 	}
-	// badMatchObject.set('*', pl); // Even this don't need, Just keep for best practices.
-	return badMatchObject;
-}
-const findBeginingIndexOfBoyreMoorePattern = (s, p) => {
-	let sl = s.length;
-	let pl = p.length;
-	let numberOfShifts = 0;
-	let badMatchMap = buildBadMatchPattern(p);
-	let result = [];
-	let i = 0;
-	for (let i = 0 ; i <= sl;i+=numberOfShifts) {
-		numberOfShifts = 0
-		for (j = pl - 1; j >= 0; j--) {
-			if (s[i] != p[j]) {
-				if (badMatchMap.has(p[j])) {
-					numberOfShifts = badMatchMap.get(p[j]);
-					break;
-				} else {
-					numberOfShifts = pl;
-					break;
+	let start = 0;
+	let count = 0;
+	let left = 0;
+	let leftChar ='';
+	for (let i = 0; i < sL; i++) {
+		currentChar = s[i];
+		if (!mapForS.hasOwnProperty(currentChar)) mapForS[currentChar] = 0;
+		else mapForS[currentChar] += 1;
+		if (mapForS.hasOwnProperty(currentChar) && mapForT.hasOwnProperty(currentChar) && mapForS[currentChar] <= mapForT[currentChar]) {
+			count++;
+		}
+		if (count === tL) {
+		leftChar = s[left];
+			while (!mapForT.hasOwnProperty(leftChar) || mapForS[leftChar] > mapForT[leftChar]) {
+				if (mapForS[leftChar] > mapForT[leftChar]) {
+					mapForS[leftChar]--;
 				}
+				left++;
+			}
+			if (i - left + 1 < minLength) {
+				minLength = i - left + 1;
+				start = left;
 			}
 		}
-		if(	numberOfShifts === 0){
-			console.log(i);
-		}
-		
 	}
-
-	return (!result.length) ? -1 : result;
-
+	return minLength === sL + 1 ? -1 : s.substr(start, minLength);
 }
 
 
-findBeginingIndexOfBoyreMoorePattern("interfaces enforce consistent interfaces in derived classes", "interfaces");
-//Pattern found On index: 0
-// Pattern found On index: 27
+function minimum_windowII(s, t) {
+	const freq1 = {},
+		freq2 = {},
+		n = s.length,
+		m = t.length;
+
+	for (let ch of t) {
+		freq1[ch] = (freq1[ch] || 0) + 1;
+	}
+
+	let minLen = n + 1,
+		start = 0;
+	let l = 0,
+		count = 0,
+		ch;
+	for (let r = 0; r < n; r++) {
+		ch = s[r];
+		freq2[ch] = (freq2[ch] || 0) + 1;
+		if (freq1[ch] && freq2[ch] <= freq1[ch]) count++;
+		if (count === m) {
+			while (!freq1[s[l]] || freq2[s[l]] > freq1[s[l]]) {
+				if (freq2[s[l]] > freq1[s[l]]) freq2[s[l]]--;
+				l++;
+			}
+			if (r - l + 1 < minLen) {
+				minLen = r - l + 1;
+				start = l;
+			}
+		}
+	}
+
+	return minLen === n + 1 ? -1 : s.substr(start, minLen);
+}
+console.log(minimum_window("BACRDESDFBAER", "BAR")); //BACR Not BEAR BACR come first
+console.log(minimum_window("AYZABOBECODXBANC", "ABC"));
+
+
+
+// Output: 
