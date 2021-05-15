@@ -24,8 +24,7 @@ Note: a graph with no edges is considered Eulerian because there are no edges to
  - Adjacent List approach
  - Matrix Approach
  - Map Approach
-
- ![All Examples](./images/graph/Examples.png)
+ ![Examples](./images/graph/Examples.png)
  
  ```javascript
 class graph {
@@ -119,7 +118,6 @@ runGraph.printGraphMatrix();
  - DFS
     - Recursion
     - Stack
-
 [!Practice](./images/graph/Practice.png)
 
 ```javascript
