@@ -1,20 +1,130 @@
 ### Graph DS
 
-- Construct Graph
-  - Adjacent List approach
-  - Matrix Approach
-  - Map Approach
-  - BFS (Queue)
-  - DFS
-    - Recursion
+- Construct Graph G= (V,E);
+    `V` -> Vertices
+    `E` -> Edges
+- What is edge?
+- What is Vertex?
+- Eulerian Russian mathematician
+![Eulerian](./images/graph/Eulerian.png)
+    - Eulerian Cycle is a graph cycle which uses each graph edge exactly once. All vertices have even degree
+        a) All vertices with non-zero degree are connected. We don’t care about vertices with zero degree because they don’t belong to Eulerian Cycle or Path (we only consider all edges).
+        b) All vertices have even degree.
+    - Eulerian Path Only Start & End vertices will have odd degree and all other vertices have even degree
+        a) Same as condition (a) for Eulerian Cycle
+        b) If zero or two vertices have odd degree and all other vertices have even degree. Note that only one vertex with odd degree is not possible in an undirected graph (sum of all degrees is always even in an undirected graph)
+Note: a graph with no edges is considered Eulerian because there are no edges to traverse.
+
+- Degree Of Garph
+    - Undirected Graph
+            I. Degree Of Graph is (SUM of adjacent edges) i.e. Sum Of total degree is 2|E|
+    - Directected Graph
+            I. Inbound degree (SUM of Incoming endges) i.e. Sum Of total degree is |E|
+            II. OutBound degree (SUM of out going endges) i.e. Sum Of total degree is |E|
+ - Adjacent List approach
+ - Matrix Approach
+ - Map Approach
+ ![All Examples](./images/graph/Examples.png)
+ 
+ ```javascript
+class graph {
+	constructor(n) {
+		this.nuberOfVertices = n;
+		this.adjacentMapList = new Map();
+		this.veritces = [];
+		this.adjacentMatrix = new Array(n).fill(0);
+		this.adjacentMatrix.map((x, i) => {
+			this.adjacentMatrix[i] = new Array(n).fill(0);
+		});
+	}
+	addVertices(v) {
+		this.veritces.push(v);
+	}
+	addEdge(start, end) {
+		if (!this.adjacentMapList.has(start))
+			this.adjacentMapList.set(start, []);
+		if (!this.adjacentMapList.has(end))
+			this.adjacentMapList.set(end, []);
+		this.adjacentMapList.get(start).push(end);
+		this.adjacentMapList.get(end).push(start);
+	}
+	addEdgeWithWeight(start, end, weight) {
+		if (!this.adjacentMapList.has(start))
+			this.adjacentMapList.set(start, []);
+		if (!this.adjacentMapList.has(end))
+			this.adjacentMapList.set(end, []);
+		this.adjacentMapList.get(start).push({
+			vertex: end, weight: weight
+		});
+		this.adjacentMapList.get(end).push({
+			vertex: start, weight: weight
+		});
+	}
+	addEdgeOnMatrix(start, end) {
+		this.adjacentMatrix[start][end] = 1;
+		this.adjacentMatrix[end][start] = 1;
+	}
+	addEdgeOnMatrixWeight(start, end, weight) {
+		this.adjacentMatrix[start][end] = weight;
+		this.adjacentMatrix[end][start] = weight;
+	}
+	printGraph() {
+		console.log(this.adjacentMapList);
+	}
+	printGraphMatrix() {
+		console.log(this.adjacentMatrix);
+	}
+}
+```
+
+```javascript
+let runGraph = new graph(3);
+runGraph.addVertices('A');
+runGraph.addVertices('B');
+runGraph.addVertices('C');
+runGraph.addEdge('A', 'B');
+runGraph.addEdge('B', 'C');
+runGraph.addEdge('C', 'A');
+runGraph.printGraph(); 
+// { 'A' => [ 'B', 'C' ], 'B' => [ 'A', 'C' ], 'C' => [ 'B', 'A' ] }
+runGraph = new graph(3);
+runGraph.addEdgeWithWeight('A', 'B', 20);
+runGraph.addEdgeWithWeight('B', 'C', 28);
+runGraph.addEdgeWithWeight('C', 'A', 30);
+runGraph.printGraph();
+// {
+//   'A' => [ { vertex: 'B', weight: 20 }, { vertex: 'C', weight: 30 } ],
+//   'B' => [ { vertex: 'A', weight: 20 }, { vertex: 'C', weight: 28 } ],
+//   'C' => [ { vertex: 'B', weight: 28 }, { vertex: 'A', weight: 30 } ]
+// }
+runGraph = new graph(3);
+runGraph.addEdgeOnMatrix(0, 1);
+runGraph.addEdgeOnMatrix(1, 2);
+runGraph.addEdgeOnMatrix(0, 2);
+runGraph.printGraphMatrix();
+// [ [ 0, 1, 1 ], [ 1, 0, 1 ], [ 1, 1, 0 ] ]
+runGraph = new graph(3);
+runGraph.addEdgeOnMatrixWeight(0, 1,20);
+runGraph.addEdgeOnMatrixWeight(1, 2,28);
+runGraph.addEdgeOnMatrixWeight(0, 2,30);
+runGraph.printGraphMatrix();
+//[ [ 0, 20, 30 ], [ 20, 0, 28 ], [ 30, 28, 0 ] ]
+ ```
+
+ - Travelling Slaesman O(2^n) 
+ - Hamiltonian Path O(2^n) 
+
+ - BFS (Queue)
+ - DFS
+     - Recursion
     - Stack
-  - Minimum Spanning tree
+ - Minimum Spanning tree
     - Can Not dissconnected
     - Can not have cycle
     - No. of minimum spanning tree can from Vertices `n` = n^(n-2)
-  - Prime's algorirhum
+ - Prime's algorirhum
     - Get minimum wight of edge repeatedly even though edge is visited.
-  - Dijkstra
+ - Dijkstra
 
 ```javascript
 class graph {

@@ -152,6 +152,8 @@ let trieNode = function () {
 		return this.end;
 	}
 }
+```
+```javascript
 let trie = function () {
 	this.root = new trieNode(); // Empty Object First
 	this.add = function (input, trie_node = this.root) {
@@ -203,9 +205,7 @@ console.log(trieSearch.isWord("ba")); //true
 console.log(trieSearch.isWord("bbbb")); //false
 // console.log(trieSearch.printAll());
 ```
-
 - Using ES6 , good with suffix patterns search. Specific case Aho corasick algorithm dictionary
-
 #### Practice Problems
 
 - Longest palindrome in a given string
@@ -249,9 +249,8 @@ const findLongestPalindrome = (a) => {
 	}
 	return max.e - max.b + 1;
 }
-
-console.log(findLongestPalindrome("asdasdewfdgbdfgklxcbxzzxbcxlkgfdbg")); //24
-// console.log("gbdfgklxcbxzzxbcxlkgfdbg".length); //25
+// console.log(findLongestPalindrome("abbbaabbbaasa")); //10
+// console.log("abbbaabbbaas".length); //10
 ```
 
 - Mutiplication of matrix
@@ -417,8 +416,6 @@ console.log(minimum_windowII("AYZABOBECODXBANC", "ABC")); //BANC
 |[Sequence alignment](https://en.wikipedia.org/wiki/Sequence_alignment "Generalized suffix tree")|[Hirschberg's algorithm](https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm),[Needleman–Wunsch algorithm](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm),[Smith–Waterman algorithm](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm "Smith–Waterman algorithm")|
 |[Data structure](https://en.wikipedia.org/wiki/Data_structure "Data structure")|[DAFSA](https://en.wikipedia.org/wiki/Deterministic_acyclic_finite_state_automaton "Deterministic acyclic finite state automaton"),[Suffix array](https://en.wikipedia.org/wiki/Suffix_array "Suffix array"),[Suffix automaton](https://en.wikipedia.org/wiki/Suffix_automaton "Compressed pattern matching"),[Suffix tree](https://en.wikipedia.org/wiki/Suffix_tree "Suffix tree"),[Generalized suffix tree](https://en.wikipedia.org/wiki/Generalized_suffix_tree),[Rope](https://en.wikipedia.org/wiki/Rope_(data_structure) "Rope (data structure)"),[Ternary search tree](https://en.wikipedia.org/wiki/Ternary_search_tree "Ternary search tree"),[Trie](https://en.wikipedia.org/wiki/Trie "Trie")|
 |Other|[Parsing](https://en.wikipedia.org/wiki/Parsing "Parsing"),[Pattern matching](https://en.wikipedia.org/wiki/Pattern_matching "Pattern matching"),[Compressed pattern matching](https://en.wikipedia.org/wiki/Compressed_pattern_matching "Needleman–Wunsch algorithm"),[Longest common subsequence](https://en.wikipedia.org/wiki/Longest_common_subsequence_problem "Longest common subsequence problem"),[Longest common substring](https://en.wikipedia.org/wiki/Longest_common_substring_problem "Longest common substring problem"),[Sequential pattern mining](https://en.wikipedia.org/wiki/Sequential_pattern_mining),[Sorting](https://en.wikipedia.org/wiki/Category:String_sorting_algorithms "Category:String sorting algorithms")|
-
-
 Question to ask in IK:
 
 1. Manachar’s Algorithm in Javascript Longest palindrome in a given string
