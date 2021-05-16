@@ -4,7 +4,7 @@
     `V` -> Vertices
     `E` -> Edges
 
-   [Concepts Need to Reiew First](https://drive.google.com/file/d/1nyK9l3M93HREqJlVUGHisGdVeYwmf-oV/view)
+   [Concepts Need to Reiew First](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Reza-Graphs.pdf)
 
 - What is edge?
 - What is Vertex?
