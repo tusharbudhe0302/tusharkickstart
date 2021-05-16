@@ -3,7 +3,9 @@
 - Construct Graph G= (V,E);
     `V` -> Vertices
     `E` -> Edges
-    ![Concepts](https://drive.google.com/file/d/1nyK9l3M93HREqJlVUGHisGdVeYwmf-oV/view)
+
+   [Concepts Need to Reiew First](https://drive.google.com/file/d/1nyK9l3M93HREqJlVUGHisGdVeYwmf-oV/view)
+
 - What is edge?
 - What is Vertex?
 - Eulerian Russian mathematician
@@ -119,7 +121,9 @@ runGraph.printGraphMatrix();
  - DFS
     - Recursion
     - Stack
+
     ![Practice](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Practice.png)
+    
 ```javascript
 let graphObject = {
 	1: [2, 3],
@@ -178,11 +182,14 @@ dfs(1, graphObject);
 dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
 ```
 - Graph Traversal Challenges
+    
     ![Analysis Of Graph](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/DirectedGraph.PNG)
+
     - Tree Edge 
     - Back Edge
     - Cross Edge.
      It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
+    
     ![Edges Of Graph](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/EdgesDetails.PNG)
 
 -  Graph Problem Solving Technique Table
