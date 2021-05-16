@@ -186,6 +186,17 @@ dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
 
 -  Template for Graph Problems
 
+![Foundation](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/FoundationsBasics.png)
+Algorithm| Technique | Result|
+---|---|---|
+BFS| Chose fringe edge to get first | BFS Tree|
+DFS| Chose fringe edge to get last. Required reverse Order | DFS Tree|
+Dijkstra's| Chose fringe edge RHS with smallest numeric label | Shortest Path tree|
+Prims's| Chose fringe edge RHS with smallest numeric label | Minimum Spanning Tree (MST)|
+Best first search| Chose fringe edge RHS with smallest numeric label | Best first search|
+A* | It chould have 2 labels, need to compute and get next | A* tree|
+
+
 ```javascript
 class Graph {
 	construtor() {
@@ -218,123 +229,7 @@ class Graph {
     - Get minimum wight of edge repeatedly even though edge is visited.
  - Dijkstra - We Can get shortest path tree
 
-```javascript
-class graph {
-	constructor(i) {
-		this.vertices = i;
-		this.adjacentList = new Map();
-		this.matrix = new Array(i).fill(0);
-		this.matrix.map((row, index) => {
-			this.matrix[index] = new Array(i).fill(0);
-		});
-	}
-	addVertex(v) {
-		this.adjacentList.set(v, []);
-	}
-	addEdge(source, destination,isUndirectional = true) {
-		this.adjacentList.get(source).push(destination);
-		if(isUndirectional)
-		this.adjacentList.get(destination).push(source);
-	}
-	printGraphObject() {
-		console.log(this.adjacentList);
-		bfs(startVertex) {
-		const vivisted = {};
-		vivisted[startVertex] = true;
-		const Queue = [];
-		console.log(`BFS adjacentList`);
-		Queue.push(startVertex);
-		while (Queue.length > 0) {
-			let vertex = Queue.shift();
-			console.log(vertex);
-			let neighbours = this.adjacentList.get(vertex);
-			for (let neighbour of neighbours) {
-				if (!vivisted[neighbour]) {
-					vivisted[neighbour] = true;
-					Queue.push(neighbour);
-				}
-			}
-		}
-	}
-	dfs(startVertex) {
-		console.log(`DFS adjacentList`);
-		const vivisted = {};
-		vivisted[startVertex] = true;
-		const Stack = [];
-		Stack.push(startVertex);
-		while (Stack.length > 0) {
-			let vertex = Stack.pop();
-			console.log(vertex);
-			let neighbours = this.adjacentList.get(vertex);
-			for (let neighbour of neighbours) {
-				if (!vivisted[neighbour]) {
-					vivisted[neighbour] = true;
-					Stack.push(neighbour);
-				}
-			}
-		}
-	}
-	dfsRecursive(startVertex) {
-		console.log(`DFS recursive adjacentList`);
-		const visited = {};
-		this.dfsRecursiveHelper(startVertex, visited);
-	}
-	bfsRecursive(startVertex) {
-		console.log(`DFS recursive adjacentList`);
-		const visited = {};
-		this.bfsRecursiveHelper(startVertex, visited);
-	}
-	dfsRecursiveHelper(vertex, visited) {
-		if (!visited[vertex]) {
-			visited[vertex] = true;
-			console.log(vertex);
-			let neighbours = this.adjacentList.get(vertex);
-			for (let neighbour of neighbours.reverse()) {
-				this.dfsRecursiveHelper(neighbour, visited);
-			}
-		}
-	}
-	bfsRecursiveHelper(vertex, visited) {
-		if (!visited[vertex]) {
-			visited[vertex] = true;
-			console.log(vertex);
-			let neighbours = this.adjacentList.get(vertex);
-			for (let neighbour of neighbours) {
-				this.bfsRecursiveHelper(neighbour, visited);
-			}
-		}
-	}
-}
-```
 
-```javascript
-let newGraphG = new graph(5);
-newGraphG.addVertex("A");
-newGraphG.addVertex("B");
-newGraphG.addVertex("C");
-newGraphG.addVertex("D");
-newGraphG.addVertex("E");
-newGraphG.addEdge("A", "B");
-newGraphG.addEdge("A", "D");
-newGraphG.addEdge("B", "C");
-newGraphG.addEdge("C", "D");
-newGraphG.addEdge("C", "E");
-newGraphG.addEdge("D", "E");
-// newGraphG.printGraphObject();
-newGraphG.bfs("A");
-newGraphG.dfs("A");
-newGraphG.dfsRecursive("A");
-```
-
-![Foundation]("images/graph/FoundationsBasics.png")
-Algorithm| Technique | Result|
----|---|---|
-BFS| Chose fringe edge to get first | BFS Tree|
-DFS| Chose fringe edge to get last. Required reverse Order | DFS Tree|
-Dijkstra's| Chose fringe edge RHS with smallest numeric label | Shortest Path tree|
-Prims's| Chose fringe edge RHS with smallest numeric label | Minimum Spanning Tree (MST)|
-Best first search| Chose fringe edge RHS with smallest numeric label | Best first search|
-A* | It chould have 2 labels, need to compute and get next | A* tree|
 
 - isBiparite Problem
 
