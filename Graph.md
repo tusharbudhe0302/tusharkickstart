@@ -119,13 +119,7 @@ runGraph.printGraphMatrix();
  - DFS
     - Recursion
     - Stack
-
-![Practice](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Practice.png)
-    - Tree Edge Level of BT
-    - Cross Edge.
-     It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
-Practice Problems:
-
+    ![Practice](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Practice.png)
 ```javascript
 let graphObject = {
 	1: [2, 3],
@@ -183,8 +177,15 @@ bfs(1, graphObject);
 dfs(1, graphObject);
 dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
 ```
+- Graph Traversal Challenges
+    ![Analysis Of Graph](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/DirectedGraph.PNG)
+    - Tree Edge 
+    - Back Edge
+    - Cross Edge.
+     It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
+    ![Edges Of Graph](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/EdgesDetails.PNG)
 
--  Template for Graph Problems
+-  Graph Problem Solving Technique Table
 
 ![Foundation](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/FoundationsBasics.png)
 Algorithm| Technique | Result|
