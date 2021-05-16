@@ -4,7 +4,7 @@
     `V` -> Vertices
     `E` -> Edges
 
-   [Concepts Need to Reiew First](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Reza-Graphs.pdf)
+   [Download File To Clear Concepts First](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Reza-Graphs.pdf)
 
 - What is edge?
 - What is Vertex?
@@ -239,37 +239,80 @@ class Graph {
 
 
 
-- isBiparite Problem
+- isBiparite Problem 
+
+  It always work with undirected graph. It should have 2 unique sets.
+    - Reza Pattern - BFS
 
 ```javascript
-var isBipartite = function (graph) {
-  const visisted = {};
-  const distance = {};
-  const parent = {};
-  const bfs = function (source) {
-    const Queue = [];
-    Queue.push(source);
-    let i = 0;
-    while (Queue.length > 0) {
-      let node = Queue.shift();
-      for (let ngb of graph[i]) {
-        if (!visisted[ngb]) {
-          visisted[ngb] = true;
-          if (!distance[node]) distance[node] = 0;
-          if (!distance[ngb]) distance[ngb] = 0;
-          distance[ngb] = distance[node] + 1;
-          parent[ngb] = node;
-          Queue.push(ngb);
-        } else if (parent[node] != ngb) {
-          if (distance[ngb] === distance[node]) return false;
-        }
-      }
-    }
-    return true;
-  };
-  return bfs(graph);
+var isBipartite = function(graph) {
+	let n = graph.length;
+	const visisted = new Array(n).fill(-1);
+	const distance = new Array(n).fill(0);
+	const parent = new Array(n).fill(0);
+	let g = new Map();
+	for (let i = 0; i < graph.length; i++) {
+		g.set(i, []);
+	}
+	for (let [start, end] of graph) {
+		g.get(start).push(end);
+		if (end)
+			g.get(end).push(start);
+	}
+	const bfs = function(source) {
+		const Queue = [];
+		Queue.push(source);
+		let i = 0;
+		while (Queue.length > 0) {
+			let node = Queue.shift();
+			for (let ngb of g.get(node)) {
+				if (parent[node] != ngb) {
+					if (distance[ngb] === distance[node]) return false;
+				} else if (visisted[ngb] === -1) {
+					visisted[ngb] = 1;
+					distance[ngb] = distance[node] + 1;
+					parent[ngb] = node;
+					Queue.push(ngb);
+				}
+			}
+		}
+		return true;
+	};
+	visisted[0] = 1;
+	return bfs(0);
 };
 ```
+
+    - Using DFS
+    
+```javascript
+var isBipartite = function(graph) {
+  const n = graph.length;
+    const color = Array(n).fill(0);
+    
+    for(let i = 0; i < n; i++) {
+        if(color[i]) continue;
+        const queue = [i];
+        color[i] = 1;
+        
+        while(queue.length) {
+            console.log(queue);
+            const curr = queue.shift();
+
+            for(let next of graph[curr]) {
+                if(color[next] === color[curr]) return false;
+                if(!color[next]) {
+                    color[next] = color[curr] === 1 ? 2 : 1;
+                    queue.push(next);
+                }
+            }
+        }
+    }
+    return true;   
+};
+```
+ 
+
 
 - Number of island adjacent
 
@@ -289,7 +332,6 @@ var numIslands = function (grid) {
     ) {
       return;
     }
-    grid[row][col] = "2";
     dfs(grid, row - 1, col, rowMax, colMax);
     dfs(grid, row + 1, col, rowMax, colMax);
     dfs(grid, row, col - 1, rowMax, colMax);
@@ -851,3 +893,7 @@ console.log(string_transformation(words, start, stop));
 
 1\. [Number of triangles in an undirected Graph](https://www.geeksforgeeks.org/number-of-triangles-in-a-undirected-graph/) 2\. [Number of triangles in directed and undirected Graph](https://www.geeksforgeeks.org/number-of-triangles-in-directed-and-undirected-graphs/) 3\. [Check whether a given graph is Bipartite or not](https://www.geeksforgeeks.org/bipartite-graph/) 4\. [Snake and Ladder Problem](https://www.geeksforgeeks.org/snake-ladder-problem-2/) 5\. [Minimize Cash Flow among a given set of friends who have borrowed money from each other](https://www.geeksforgeeks.org/minimize-cash-flow-among-given-set-friends-borrowed-money/) 6\. [Boggle (Find all possible words in a board of characters)](https://www.geeksforgeeks.org/boggle-find-possible-words-board-characters/) 7\. [Hopcroft Karp Algorithm for Maximum Matching-Introduction](https://www.geeksforgeeks.org/hopcroft-karp-algorithm-for-maximum-matching-set-1-introduction/) 8\. [Hopcroft Karp Algorithm for Maximum Matching-Implementation](https://www.geeksforgeeks.org/hopcroft-karp-algorithm-for-maximum-matching-set-2-implementation/) 9\. [Minimum Time to rot all oranges](https://www.geeksforgeeks.org/minimum-time-required-so-that-all-oranges-become-rotten/) 10\. [Find same contents in a list of contacts](https://www.geeksforgeeks.org/find-same-contacts-in-a-list-of-contacts/) 11\. [Hypercube Graph](https://www.geeksforgeeks.org/hypercube-graph/) 12\. [Check for star graph](https://www.geeksforgeeks.org/check-star-graph/) 13\. [Optimal read list for a given number of days](https://www.geeksforgeeks.org/optimal-read-list-given-number-days/) 14\. [Print all jumping numbers smaller than or equal to a given value](https://www.geeksforgeeks.org/print-all-jumping-numbers-smaller-than-or-equal-to-a-given-value/) 15\. [Fibonacci Cube Graph](https://www.geeksforgeeks.org/fibonacci-cube-graph/) 16\. [Barabasi Albert Graph (for Scale Free Models)](https://www.geeksforgeeks.org/barabasi-albert-graph-scale-free-models/) 17\. [Construct a graph from given degrees of all vertices](https://www.geeksforgeeks.org/construct-graph-given-degrees-vertices/) 18\. [Degree Centrality (Centrality Measure)](https://www.geeksforgeeks.org/degree-centrality-centrality-measure/) 19\. [Katz Centrality (Centrality Measure)](https://www.geeksforgeeks.org/katz-centrality-centrality-measure/) 20\. [Mathematics | Graph theory practice questions](https://www.geeksforgeeks.org/graph-theory-practice-questions/) 21\. [2-Satisfiability (2-SAT) Problem](https://www.geeksforgeeks.org/2-satisfiability-2-sat-problem/) 22\. [Determine whether a universal sink exists in a directed graph](https://www.geeksforgeeks.org/determine-whether-universal-sink-exists-directed-graph/) 23\. [Number of sink nodes in a graph](https://www.geeksforgeeks.org/number-sink-nodes-graph/) 24\. [Largest subset of Graph vertices with edges of 2 or more colors](https://www.geeksforgeeks.org/largest-subset-graph-vertices-edges-2-colors/) 25\. [NetworkX : Python software package for study of complex networks](https://www.geeksforgeeks.org/networkx-python-software-package-study-complex-networks/) 26\. [Generate a graph using Dictionary in Python](https://www.geeksforgeeks.org/generate-graph-using-dictionary-python/) 27\. [Count number of edges in an undirected graph](https://www.geeksforgeeks.org/count-number-edges-undirected-graph/) 28\. [Two Clique Problem (Check if Graph can be divided in two Cliques)](https://www.geeksforgeeks.org/two-clique-problem-check-graph-can-divided-two-cliques/) 29\. [Check whether given degrees of vertices represent a Graph or Tree](https://www.geeksforgeeks.org/check-whether-given-degrees-vertices-represent-graph-tree/) 30\. [Finding minimum vertex cover size of a graph using binary search](https://www.geeksforgeeks.org/finding-minimum-vertex-cover-graph-using-binary-search/) 31\. [Stable Marriage Problem](https://www.geeksforgeeks.org/stable-marriage-problem/) 32\. [Sum of dependencies in a graph](https://www.geeksforgeeks.org/sum-dependencies-graph/)
 
+
+
+#### Need to verify Below Questions:
+1. https://leetcode.com/problems/is-graph-bipartite/
