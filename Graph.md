@@ -3,11 +3,12 @@
 - Construct Graph G= (V,E);
     `V` -> Vertices
     `E` -> Edges
+    ![Concepts](https://drive.google.com/file/d/1nyK9l3M93HREqJlVUGHisGdVeYwmf-oV/view)
 - What is edge?
 - What is Vertex?
 - Eulerian Russian mathematician
 
-![Eulerian](./images/graph/Eulerian.png)
+![Eulerian](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Eulerian.png)
     - Eulerian Cycle is a graph cycle which uses each graph edge exactly once. All vertices have even degree. It must be connected Graph not disconnected.
         a) All vertices with non-zero degree are connected. We don’t care about vertices with zero degree because they don’t belong to Eulerian Cycle or Path (we only consider all edges).
         b) All vertices have even degree.
@@ -26,7 +27,7 @@ Note: a graph with no edges is considered Eulerian because there are no edges to
  - Matrix Approach
  - Map Approach
  
- ![Examples](./images/graph/Examples.png)
+ ![Examples](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Examples.PNG)
  
  Practice Problems:
  
@@ -119,7 +120,7 @@ runGraph.printGraphMatrix();
     - Recursion
     - Stack
 
-![Practice](./images/graph/Practice.png)
+![Practice](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Practice.png)
     - Tree Edge Level of BT
     - Cross Edge.
      It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
@@ -325,7 +326,7 @@ newGraphG.dfs("A");
 newGraphG.dfsRecursive("A");
 ```
 
-
+![Foundation]("images/graph/FoundationsBasics.png")
 Algorithm| Technique | Result|
 ---|---|---|
 BFS| Chose fringe edge to get first | BFS Tree|
