@@ -6,8 +6,9 @@
 - What is edge?
 - What is Vertex?
 - Eulerian Russian mathematician
+
 ![Eulerian](./images/graph/Eulerian.png)
-    - Eulerian Cycle is a graph cycle which uses each graph edge exactly once. All vertices have even degree
+    - Eulerian Cycle is a graph cycle which uses each graph edge exactly once. All vertices have even degree. It must be connected Graph not disconnected.
         a) All vertices with non-zero degree are connected. We don’t care about vertices with zero degree because they don’t belong to Eulerian Cycle or Path (we only consider all edges).
         b) All vertices have even degree.
     - Eulerian Path Only Start & End vertices will have odd degree and all other vertices have even degree
@@ -24,7 +25,10 @@ Note: a graph with no edges is considered Eulerian because there are no edges to
  - Adjacent List approach
  - Matrix Approach
  - Map Approach
+ 
  ![Examples](./images/graph/Examples.png)
+ 
+ Practice Problems:
  
  ```javascript
 class graph {
@@ -110,15 +114,16 @@ runGraph.addEdgeOnMatrixWeight(0, 2,30);
 runGraph.printGraphMatrix();
 //[ [ 0, 20, 30 ], [ 20, 0, 28 ], [ 30, 28, 0 ] ]
  ```
-
- - Travelling Slaesman O(2^n) 
- - Hamiltonian Path O(2^n) 
-
  - BFS (Queue)
  - DFS
     - Recursion
     - Stack
-[!Practice](./images/graph/Practice.png)
+
+![Practice](./images/graph/Practice.png)
+    - Tree Edge Level of BT
+    - Cross Edge.
+     It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
+Practice Problems:
 
 ```javascript
 let graphObject = {
@@ -175,7 +180,7 @@ const dfsrecursive = (start, graph, visited = {}) => {
 
 bfs(1, graphObject);
 dfs(1, graphObject);
-dfsrecursive(1, graphObject);
+dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
 ```
 
 -  Template for Graph Problems
@@ -202,7 +207,8 @@ class Graph {
 	}
 }
 ```
-
+ - Travelling Slaesman O(2^n) 
+ - Hamiltonian Path O(2^n) 
  - Minimum Spanning tree
     - Can Not dissconnected
     - Can not have cycle
