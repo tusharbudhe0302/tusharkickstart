@@ -34,7 +34,7 @@ Note: a graph with no edges is considered Eulerian because there are no edges to
 - Topological Sort Of Graph
 
  ![Examples](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/totplogicalsort.PNG)
- 
+
 ```javascript
 const visited = {};
 const result = [];
@@ -65,7 +65,7 @@ const topologiclSort = ()=>{
 	}
 	return result.reverse();
 }
-console.log(topologiclSort());
+console.log(topologiclSort()); // [ 1, 2, 3, 5, 4 ] Or [ 1, 2, 3, 4, 5 ] Both are correct
 
 ```
 
