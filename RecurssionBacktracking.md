@@ -236,7 +236,7 @@ console.log(numberToBinaryString(3)); //000,010,011,111....
 ```
 - Optimized solution - DFS Solution - Merge sort Divide & Conquer
 -  Space O(n) or (Log(2^n))
-- Time O(n);
+- Time O(2^n);
 ```javascript
 const numberToBinaryString = (n,slate='',result=[])=>{
 	if(n==0) result.push(slate);
@@ -593,4 +593,49 @@ function how_many_BSTs(n) {
 
 
 console.log(how_many_BSTs(2));
+```
+#### Check Sum is Possible
+
+```javascript
+function check_if_sum_possible(arr, k) {
+	const helper = (a, target, n = a.length, position = 0, sum = 0, size = 0) => {
+		if (target === sum) {
+			if (size > 0) return true;
+		}
+		if (position === n) return false;
+		return helper(a, target, n, position + 1, sum, size) || helper(a, target, n, position + 1, sum + a[position], size + 1);
+	}
+	return helper(arr, k);
+}
+console.log(check_if_sum_possible([2,4,8],6));
+```
+
+#### Number Of Ways
+
+```javascript
+let result = 0;
+// let values = map.values(); // 1,26
+var numDecodings = function (s, position = 0) {
+	let char = s[position];
+	if (char == '0') return 0;
+	if (position >= s.length) return 1;
+	switch (char) {
+		case '1':
+			if (s[position + 1] == '0')
+				return numDecodings(s, position + 1);
+			else
+				return numDecodings(s, position + 1) + numDecodings(s, position + 2);
+		case '2':
+			if (s[position + 1] > 6)
+				return numDecodings(s, position + 1);
+			else
+				return numDecodings(s, position + 1) + numDecodings(s, position + 2);
+		default:
+			return numDecodings(s, position + 1);
+	}
+
+};
+// console.log(numDecodings('226'));
+console.log(numDecodings('212'));
+// console.log(numDecodings('226'));
 ```

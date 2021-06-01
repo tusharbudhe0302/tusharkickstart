@@ -142,68 +142,46 @@ findStringPatternByBoyreMoore('this is a test', 'test'); //Pattern found at : 10
 - Using dictionary,not good for suffix patterns. It's fine for prefix patterns liek naive algorithum to check word exist or not.
 
 ```javascript
-let trieNode = function () {
-	this.node_key = new Map();
-	this.end = false;
-	this.setEnd = function () {
-		this.end = true;
-	}
-	this.isEnd = function () {
-		return this.end;
+class TrieNode {
+	constructor(count) {
+		this.children = [];
+		this.isend = false;
+		this.count = count || 0;
 	}
 }
-```
-```javascript
-let trie = function () {
-	this.root = new trieNode(); // Empty Object First
-	this.add = function (input, trie_node = this.root) {
-		if (input.length === 0) {
-			trie_node.setEnd();
-			// console.log(trie_node.isEnd());
-			return;
-			//trie_node.node_key make sure you are reaching correct property
-		} else if (!trie_node.node_key.has(input[0])) {
-			trie_node.node_key.set(input[0], new trieNode());
-			return this.add(input.substr(1), trie_node); // don't forget return
-		} else {
-			return this.add(input.substr(1), trie_node.node_key.get(input[0])); // don't forget return 
-		}
-	};
-	this.isWord = function (input) {
-		var trie_node = this.root;
-		var word = input;
-		while (word.length > 1) {
-			if (!trie_node.node_key.has(word[0])) return false;
-			else {
-				trie_node = trie_node.node_key.get(word[0]);
-				word = word.substr(1);
-			}
-		}
-		return trie_node.node_key.has(word[0]) && trie_node.isEnd() ? true : false;
+class Trie {
+	constructor() {
+		this.root = new TrieNode();
 	}
-	this.printAll = function () {
-		var words = new Array();
-		var Search = function (trie_node, suffixStr) {
-			if (trie_node.node_key.size != 0 || !trie_node.isEnd()) {
-				for (let char of trie_node.node_key.keys()) {
-					Search(trie_node.node_key.get(char), suffixStr.concat(char));
-				}
-				words.push(suffixStr)
-			}
-		};
-		Search(this.root, new String());
-		return words;
+	insert(word) {
+		let node = this.root;
+		for (let ch of word) {
+			if (node.children[ch]) node.children[ch].count++;
+			else
+				node.children[ch] = new TrieNode(1);
+			node = node.children[ch];
+		}
+		node.isend = true;
+	}
+	remove(word) {
+		let node = this.root;
+		for (let ch of word) {
+			let temp = node.children[ch]
+			if (temp) temp.count--;
+			else break;
+			if (temp.count === 0) delete node.children[ch];
+			node = temp; //Important
+		}
+	}
+	find(word) {
+		let node = this.root;
+		for (let ch of word) {
+			if (!node.children[ch]) return false;
+			node = node.children[ch];
+		}
+		return node.isend === true ? true : false;
 	}
 }
-var trieSearch = new trie();
-
-trieSearch.add("ba");
-trieSearch.add("baz");
-trieSearch.add("bbbb");
-console.log(trieSearch.isWord("baz")); //true
-console.log(trieSearch.isWord("ba")); //true
-console.log(trieSearch.isWord("bbbb")); //false
-// console.log(trieSearch.printAll());
 ```
 - Using ES6 , good with suffix patterns search. Specific case Aho corasick algorithm dictionary
 #### Practice Problems

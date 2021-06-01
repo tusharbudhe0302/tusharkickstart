@@ -58,112 +58,55 @@ console.log(result);//[1,10,11,12,15,19,25]
 ```
 
 #### Insertion Sort
-- There are 3 ways
-  1. top-down approach (**Recursion**)
-    - Check Condition `n < 1`
-    - Set `j = n-1`
-    - - Time O(n^2) Space O(n)  because of recursion
 
- ```javascript
-    var insertionSortRecusrive = function(a, n = a.length) {
-    	if (n < 1) return a;
-    	insertionSortRecusrive(a, n - 1);
-    	// j = n-1;
-    	var j = n - 1;
-    	// j >= 1 && a[j] <= a[j - 1]
-    	while (j >= 1 && a[j] <= a[j - 1]) {
-    		[a[j], a[j - 1]] = [a[j - 1], a[j]];
-    		j--;
-    	}
-    	return a;
-    }
-    let result, a;
-    a = [10, 15, 12, 11, 19, 25, 1];
-    result = insertionSortRecusrive(a);
-    console.log(result); //[1,10,11,12,15,19,25]
-  ```
-  2. bottom-up approch(**Iterative**)
-        - Decrese & Conquer Stratergy `i=1`
-        - Set `holeIndex = i;`
-        - Items is leass than prev adjacent
-            - `while (holeIndex >= 0 && a[holeIndex] < a[holeIndex - 1])`
-        - Swap with previous
-        - - Time O(n^2) Space O(1)
-
-  ```javascript
- // Create hole index if Items is leass than prev ajacent then shift element to right 
-    var insertionSort = function(a, n = a.length) {
-    	// i = 1
-    	for (let i = 1; i < n; i++) {
-    		let holeIndex = i;
-    		// holeIndex >= 0
-    		while (holeIndex >= 0 && a[holeIndex] < a[holeIndex - 1]) {
-    			[a[holeIndex - 1], a[holeIndex]] = [a[holeIndex], a[holeIndex - 1]];
-    			holeIndex--;
-    		}
-    	}
-    	return a;
-    }
-    let result, a;
-    a = [10, 15, 12, 11, 19, 25, 1];
-    result = insertionSort(a);
-    console.log(result); //[1,10,11,12,15,19,25]
-  ```
-  
-  3. bottom-up approch(**Iterative**)
-        - This was technique created by me. 
-        - Insted of swapping wvery time,get `temp = a[i]`
-        - Check with adjacent `lastHoleIndex>0 && a[lastHoleIndex - 1] > temp`
-        - Start shiting the elements to right
-        - - Time O(n^2) Space O(1)
+- Common Logic
 
 ```javascript
-    var insertionSort = (a) => {
-    	let n = a.length;
-    	for (let i = 1; i < n; i++) {
-    		let temp = a[i];
-    		let holeIndex = i;
-    		while(holeIndex>0 && a[holeIndex-1]>temp){
-    			a[holeIndex] = a[holeIndex-1];
-    			holeIndex--;
-    		}
-    		a[holeIndex] = temp;
-    	}
-    	return a;
-    }
-    console.log(insertionSort([10, 15, 12, 11, 19, 25, 1]));//[1,10,11,12,15,19,25]
+//i = 1 to n; j = i
+while (j > 0 && a[j] < a[j - 1]) {
+	[a[j - 1], a[j]] = [a[j], a[j - 1]]
+	j--;
+}
+```
+
+- Recurssion (top-down)
+
+```javascript
+const insertionSort = (a, n = a.length) => {
+	if (n < 1) return a;
+	insertionSort(a, n - 1);
+	let j = n;
+	while (j > 0 && a[j] < a[j - 1]) {
+		[a[j], a[j - 1]] = [a[j - 1], a[j]];
+		j--;
+	}
+	return a;
+}
+console.log(insertionSort([9, 4, 2, 3, 7])); //[ 2, 3, 4, 7, 9 ]
+```
+
+- Iterative (bottom-up)
+
+```javascript
+const insertionSort = (a) => {
+	let n = a.length;
+	for (let i = 1; i < n; i++) {
+		let j = i;
+		while (j > 0 && a[j] < a[j - 1]) {
+			[a[j - 1], a[j]] = [a[j], a[j - 1]];
+			j--;
+		}
+	}
+	return a;
+}
+console.log(insertionSort([9, 4, 2, 3, 7])); //[ 2, 3, 4, 7, 9 ]
 ```
   
 ##### Merge Sort
     
- - - Divide & Conquer algorithm
- - - Split array to left and right and Call recursively
-    1. Using 2 pointer
-        -   start = 0 & end = `a.length - 1`
-        -  if(start<end)  `mid= Math.floor(start+end)/2;`
-        -  Split array as below
-        
-        ```javascript
-        let left = a.slice(0, mid);
-        let right = a.slice(mid);
-        mergeSort(left, 0, mid);
-        mergeSort(right, mid + 1, end);
-        ```
-    
-    2. Using 1 Pointer 
-        - Set `n = a.length`
-        - if(n>1) `mid = Math.floor(n/2)`
-        - Split array as below
-        ```javascript
-        var mid = Math.floor((n) / 2);
-		let left = a.slice(0, mid);
-		let right = a.slice(mid); //Start Slice arry from mid
-		mergeSort(left);
-		mergeSort(right);
-		merge(a, left, right);
-        ```
-
-  - - If you want to remove K variable,it will take extra memory. So You can push the elemnet in new array. Space O(n(log(n)) 
+- Divide & Conquer algorithm.
+- Split array to left and right and Call recursively
+- Merge left sorted & right sorted array.
 
 ```javascript
 // Divide & Conquer algorithm. Split into 2 arrays Sort & Merge
@@ -185,24 +128,13 @@ var merge = function(a, left, right) {
 	return a;
 }
 // If you want to use start & end `Start<end` end = a.length-1; then right will start from mid+1
-var mergeSortII = function(a, start = 0, end = a.length - 1) {
+var mergeSort = function(a, start = 0, end = a.length - 1) {
 	if (start < end) {
 		var mid = Math.floor((start + end) / 2);
 		let left = a.slice(0, mid);
 		let right = a.slice(mid);
 		mergeSort(left, 0, mid); //mid
 		mergeSort(right, mid + 1, end); // mid+1
-		merge(a, left, right);
-	}
-	return a;
-}
-var mergeSort = function(a, n = a.length) {
-	if (n > 1) {
-		var mid = Math.floor((n) / 2);
-		let left = a.slice(0, mid);
-		let right = a.slice(mid); //slice array from mid
-		mergeSort(left);
-		mergeSort(right);
 		merge(a, left, right);
 	}
 	return a;
@@ -228,26 +160,35 @@ var bigger = start;
  // Lomuto partion a[start] && Hoare a[end]
 // Find partion Index If Pivot is bigger the swaped with Start
 // Note : 1. Make sure you have 2 pointer smaller & bigger 
-var quickSort = function(a, start = 0, end = a.length - 1) {
+const parition = (a, left, right) => {
+	let pivotIndex = Math.floor((left + right) / 2);
+	let pivot = a[pivotIndex]
+	let start = left;
+	let end = right;
 	if (start < end) {
-		var randomIndex = Math.floor(Math.random() * (end - start + 1) + start);
-		[a[start], a[randomIndex]] = [a[randomIndex], a[start]];
-		var pivot = a[start]; // Make sure your Pivot will be start
-		var smaller = start;
-		var bigger = start;
-		for (bigger; bigger <= end; bigger++) {
-			if (a[bigger] < pivot) {
-				smaller++;
-				[a[smaller], a[bigger]] = [a[bigger], a[smaller]];
-			}
+		while (a[start] < pivot) start++;
+		while (a[end] > pivot) end--;
+		if (start <= end) {
+			var temp = a[start];
+			a[start] = a[end];
+			a[end] = temp;
+			start++;
+			end--;
 		}
-		[a[start], a[smaller]] = [a[smaller], a[start]];
-		quickSort(a, start, smaller - 1);
-		quickSort(a, smaller + 1, bigger);
+	}
+	return start;
+}
+const quicksort = (a, start, end) => {
+	let paritionIndex;
+	if (start<end) {
+		paritionIndex = parition(a, start, end);
+		quicksort(a, start, paritionIndex - 1);
+		quicksort(a, paritionIndex, end);
 	}
 	return a;
 }
-console.log(quickSort([7, 2, 1, 6, 8, 5, 4]));
+let items = [9, 4, 5, 7, 3, 6];
+console.log(quicksort(items, 0, items.length - 1));// [ 3, 4, 5, 6, 7, 9 ]
   ```
 
 | Case         | Merge Sort Space Complexity | Merge Sort Time Complexity | Quick Sort Space Complexity | Quick Time Complexity |
@@ -268,35 +209,37 @@ console.log(quickSort([7, 2, 1, 6, 8, 5, 4]));
 - First create heap for first half of array.
 - Apply heap sort logic on complete array.
 
-  ```javascript
-  const heapify = (arr, n, i) => {
-    //# Find largest among root and children
-    let largest = i;
-    let l = 2 * i + 1;
-    let r = 2 * i + 2;
-    if (l < n && arr[l] > arr[largest]) largest = l;
-    if (r < n && arr[r] > arr[largest]) largest = r;
-    //# If root is not largest, swap with largest and continue heapifying
-    if (largest != i) {
-      [arr[i], arr[largest]] = [arr[largest], arr[i]];
-      heapify(arr, n, largest);
-    }
-  };
-  const heapSort = (arr) => {
-    let n = arr.length;
-    // create heap for first half of array.
-    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) heapify(arr, n, i);
-    // heap sort logic on complete array
-    for (let i = n - 1; i >= 0; i--) {
-      [arr[0], arr[i]] = [arr[i], arr[0]];
-      // Heapify root element to get highest element at root again
-      heapify(arr, i, 0);
-    }
-    return arr;
-  };
-  let arr = [1, 12, 9, 5, 6, 10, 7];
-  console.log(heapSort(arr));
-  ```
+```javascript
+const heapify = (a, i, n) => {
+	let largest = i;
+	let left = 2 * i + 1;
+	let right = 2 * i + 2;
+	if (left < n && a[largest] < a[left])
+		largest = left;
+	if (right < n && a[largest] < a[right])
+		largest = right;
+	if (largest != i) {
+		[a[i], a[largest]] = [a[largest], a[i]];
+		heapify(a, largest, n);
+	}
+	return a;
+}
+const heapSort = (a) => {
+	let n = a.length;
+	let start = Math.floor(n / 2);
+	for (let i = start; i >= 0; i--) {
+		heapify(a, i, n);
+	}
+	for (let i = n - 1; i >= 0; i--) {
+		let temp = a[i];
+		a[i] = a[0];
+		a[0] = temp;
+		heapify(a, 0, i);
+	}
+	return a;
+}
+console.log(heapSort([9, 4, 5, 7, 3, 6])); // [ 3, 4, 5, 6, 7, 9 ]
+```
 
 #### Proirty Queue
 

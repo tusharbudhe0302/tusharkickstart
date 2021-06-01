@@ -31,6 +31,44 @@ Note: a graph with no edges is considered Eulerian because there are no edges to
  
  ![Examples](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Examples.PNG)
  
+- Topological Sort Of Graph
+
+ ![Examples](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/totplogicalsort.PNG)
+ 
+```javascript
+const visited = {};
+const result = [];
+// Just sample directed grah
+let graphObject = {
+	1: [2, 3],
+	2: [3, 4],
+	3: [4, 5],
+	4: [],
+	5: []
+};
+const totplogicSortUtil = (source)=>{
+	visited[source] = true;
+	let neighbors  = graphObject[source];
+	for(let ngb of neighbors){
+		if(!visited[ngb])
+			totplogicSortUtil(ngb)	
+		
+	}
+	// Insted of ParseInt +d -> 1*d.It's convert string to number.
+	result.push(+source);
+}
+const topologiclSort = ()=>{
+	let keys = Object.keys(graphObject);
+	for(let key of keys){
+		if(!visited[key])
+			totplogicSortUtil(key);
+	}
+	return result.reverse();
+}
+console.log(topologiclSort());
+
+```
+
  Practice Problems:
  
  ```javascript
@@ -124,68 +162,127 @@ runGraph.printGraphMatrix();
 
     ![Practice](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/Practice.png)
     
-```javascript
-let graphObject = {
-	1: [2, 3],
-	2: [1, 3, 4],
-	3: [1, 2, 4, 5],
-	4: [2, 3, 5],
-	5: [3, 4]
-};
-const bfs = (start, graph = null) => {
-	var visited = {};
-	var stack = [];
-	visited[start] = true;
-	stack.push(start);
-	while (stack.length > 0) {
-		var node = stack.shift();
-		console.log(node);
-		var neighbours = graph[node];
-		for (let neighbour of neighbours) {
-			if (!visited[neighbour]) {
-				visited[neighbour] = true;
-				stack.push(neighbour);
-			}
-		}
-	}
-}
-const dfs = (start, graph) => {
-	var visited = {};
-	var stack = [];
-	stack.push(start);
-	while (stack.length > 0) {
-		var node = stack.pop();
-		visited[node] = true;
-		console.log(node);
-		var neighbours = graph[node];
-		for (let neighbour of neighbours) {
-			if (!visited[neighbour]) {
-				visited[neighbour] = true;
-				stack.push(neighbour);
-			}
-		}
-	}
-}
-const dfsrecursive = (start, graph, visited = {}) => {
-	visited[start] = true;
-	console.log(start);
-	var neighbours = graph[start];
-	for (let neighbour of neighbours) {
-		if (!visited[neighbour]) {
-			dfsrecursive(neighbour,graph, visited)
-		}
-	}
-}
+      ```javascript
+      let graphObject = {
+        1: [2, 3],
+        2: [1, 3, 4],
+        3: [1, 2, 4, 5],
+        4: [2, 3, 5],
+        5: [3, 4]
+      };
+      const bfs = (start, graph = null) => {
+        var visited = {};
+        var stack = [];
+        visited[start] = true;
+        stack.push(start);
+        while (stack.length > 0) {
+          var node = stack.shift();
+          console.log(node);
+          var neighbours = graph[node];
+          for (let neighbour of neighbours) {
+            if (!visited[neighbour]) {
+              visited[neighbour] = true;
+              stack.push(neighbour);
+            }
+          }
+        }
+      }
+      const dfs = (start, graph) => {
+        var visited = {};
+        var stack = [];
+        stack.push(start);
+        while (stack.length > 0) {
+          var node = stack.pop();
+          visited[node] = true;
+          console.log(node);
+          var neighbours = graph[node];
+          for (let neighbour of neighbours) {
+            if (!visited[neighbour]) {
+              visited[neighbour] = true;
+              stack.push(neighbour);
+            }
+          }
+        }
+      }
+      const dfsrecursive = (start, graph, visited = {}) => {
+        visited[start] = true;
+        console.log(start);
+        var neighbours = graph[start];
+        for (let neighbour of neighbours) {
+          if (!visited[neighbour]) {
+            dfsrecursive(neighbour,graph, visited)
+          }
+        }
+      }
 
-bfs(1, graphObject);
-dfs(1, graphObject);
-dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
-```
+      bfs(1, graphObject);
+      dfs(1, graphObject);
+      dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
+      ```
+
 - Graph Traversal Challenges
+
+    Common Code:
+    ```javascript
+      const visisted = {};
+      const parent = {}; // Undirected Graph. Not required in directed Graph.
+    ```
+    A. Undirected Graph You can Use both BFS & DFS
+
+    - BFS Sample Code
+
+    ```javascript
+      const bfs = (source)=>{
+      const Queue = [];
+      Queue.push(source);
+      visisted[source] = true;
+      while(Queue.length>0){
+        let current = Queue.shift();
+        let neighbors = this.adjList.get(current);
+        for(let ngb of neighbors){
+          if(!visisted[ngb]){
+            visisted[ngb] = true;
+            parent[ngb] = current;
+            Queue.push(ngb);
+          } 
+          else if(parent[current]!=ngb){
+            // parent[current] !=ngb 
+            // but don't do parent[ngb] = current Otherwise you will never get cycle.
+            // Because on top line 206 we are setting parent[ngb] = current;
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    ```
+
+    - DFS Sample Code 
     
+    ```javascript
+    const dfs = (source) => {
+    visited[source] = true;
+    for (let ngb of graph[source]) {
+        if (!visited[ngb]) {
+            visited[ngb] = true;
+            parent[ngb] = source;
+            if (dfs(ngb)) {
+                console.log(`source: ${source} | ngb: ${ngb}`);
+                return true;
+            }
+        } else if (parent[source] != ngb) {
+            return true;
+            }
+        }
+        return false;
+    }
+    ```
+
+    B. Directed Graph You can Use both DFS Only. It help for backtracking
+
     ![Analysis Of Graph](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/DirectedGraph.PNG)
 
-    - Tree Edge 
+    - Tree Edge
     - Back Edge
     - Cross Edge.
      It could be on on same layer or adjacent layer.We can't get cross edge with skiping or jumping vertex to reach to final edge.
@@ -197,35 +294,37 @@ dfsrecursive(1, graphObject); // O(m+n) m-> Edge n-> Vertex
 ![Foundation](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/graph/FoundationsBasics.png)
 Algorithm| Technique | Result|
 ---|---|---|
-BFS| Chose fringe edge to get first | BFS Tree|
+BFS| Chose fringe edge to get first. It will alwways return shortest path. | BFS Tree|
 DFS| Chose fringe edge to get last. Required reverse Order | DFS Tree|
-Dijkstra's| Chose fringe edge RHS with smallest numeric label | Shortest Path tree|
-Prims's| Chose fringe edge RHS with smallest numeric label | Minimum Spanning Tree (MST)|
+Dijkstra's| Best for directed Graph.Chose fringe edge RHS with smallest numeric label. bellman-ford /floyd-warshall algorithm | Shortest Path tree|
+Prims's| Chose fringe edge RHS with smallest numeric label.kruskal algorithm | Minimum Spanning Tree (MST)|
 Best first search| Chose fringe edge RHS with smallest numeric label | Best first search|
 A* | It chould have 2 labels, need to compute and get next | A* tree|
 
 
 ```javascript
-class Graph {
-	construtor() {
-		this.adjacentMap = new Map();
-		this.visited = {};
-		this.parent = {};
-	}
-	search(searchItem) {
-		const stack = [];
-		stack.push(searchItem);
-		while (stack.length > 0) {
-			let vertex = stack.pop();
-			visisted[vertex] = true;
-			let neighbours = this.adjacentMap.get(vertex);
-			for (let neighbour of neighbours) {
-				visisted[neighbour] = true
-				this.parent[neighbour] = vertex;
-			}
-		}
-	}
-}
+  // Directed Graph Cycle only DFS will work Reza Patter
+    let arrival = new Array(n).fill(0);
+    let departure = new Array(n).fill(0);
+    let visisted = new Array(n).fill(-1);
+    let time = 0;
+    const dfs = (source) => {
+      visited[source] = 1;
+      arrival[source] = time++;
+      for (let neighbour of neighbours) {
+        if (visited[neighbour] === -1) {
+          if(dfs(neighbour)) return true;
+        } else { //It's visited node
+          if (departure[neighbour] === 0) //if departure time of neighbour is not set
+          // back edge
+          else if (arrival[source]<arrival[neighbour]) // departure time of neighbour is not set
+          //forward edge
+          else //arrival[source]> arrival[neighbour]
+            // cross edge
+        }
+      }
+      departure[source] = time++;
+    }
 ```
  - Travelling Slaesman O(2^n) 
  - Hamiltonian Path O(2^n) 
@@ -298,7 +397,6 @@ var isBipartite = function(graph) {
         while(queue.length) {
             console.log(queue);
             const curr = queue.shift();
-
             for(let next of graph[curr]) {
                 if(color[next] === color[curr]) return false;
                 if(!color[next]) {
@@ -322,6 +420,11 @@ var isBipartite = function(graph) {
  * @return {boolean}
  */
 var numIslands = function (grid) {
+  		// Traverse 8 adjacent cells of boggle[i,j]
+		// for (let row = i - 1; row <= i + 1 && row < M; row++)
+		// 	for (let col = j - 1; col <= j + 1 && col < N; col++)
+		// 		if (row >= 0 && col >= 0 && !visited[row][col])
+		// 			findWordsUtil(row, col, str);
   function dfs(grid, row, col, rowMax, colMax) {
     if (
       row < 0 ||
@@ -359,6 +462,49 @@ let grid = [
   ["0", "0", "0", "1", "1"],
 ];
 console.log(numIslands(grid)); //3
+```
+
+- Snake & Ladder
+
+```javascript
+var snakesAndLadders = function(board) {
+	const N = board.length;
+	const getLoc = (pos) => {
+		let row = Math.floor((pos - 1) / N);
+		let col = (pos - 1) % N;
+		col = (row % 2) === 1 ? N - col - 1 : col;
+		row = N - row - 1;
+		return [row, col];
+	}
+	const q = [1];
+	const v = {
+		'1': 0
+	};
+	while (q.length) {
+		const n = q.shift();
+		if (n === N * N){
+			console.log(v); 
+			 return v[n];
+		}
+		for (let i = n + 1; i <= Math.min(n + 6, N * N); i++) {
+			const [r, c] = getLoc(i);
+			const next = board[r][c] === -1 ? i : board[r][c];
+			if (v[next] === undefined) {
+				q.push(next);
+				v[next] = v[n] + 1;
+			}
+		}
+	}
+	return -1;
+};
+console.log(snakesAndLadders([
+	[-1, -1, -1, -1, -1, -1],
+	[-1, -1, -1, -1, -1, -1],
+	[-1, -1, -1, -1, -1, -1],
+	[-1, 35, -1, -1, 13, -1],
+	[-1, -1, -1, -1, -1, -1],
+	[-1, 15, -1, -1, -1, -1]
+]));
 ```
 
 - Prime's Algorithum
@@ -569,6 +715,7 @@ function find_order(words) {
 }
 console.log(find_order(["baa", "abcd", "abca", "cab", "cad"])); //bdac
 ```
+
 - Construct Other grapg from given graph./ Clone a graph
 ```javascript
 function build_other_graph(node) {
@@ -608,7 +755,7 @@ function build_other_graph(node) {
 	return dfs(node);
 }
 ```
-- Course Schedule I (207)
+- Course Schedule I (207) Reza Pattern
 ```javascript
 var canFinish = function (numCourses, prerequisites) {
     const graph = new Map();
@@ -651,7 +798,7 @@ console.log(canFinish(2, [
     [0, 1]
 ])); //false
 ```
-- Course Schedule II 210
+- Course Schedule II 210 (Topological Sort)
 ```javascript
 var canFinishII = function (numCourses, prerequisites) {
     const graph = new Map();
@@ -672,7 +819,7 @@ var canFinishII = function (numCourses, prerequisites) {
         visisted[source] = 1;
         for (let neighbour of graph.get(source)) {
             if (visisted[neighbour] === -1) {
-                if (dfs(neighbour)) return true;
+                if (dfs(neighbour)) return true; // Very important line
             } else {
                 if (departure[neighbour] === 0) {
                     return true;
@@ -775,7 +922,7 @@ function string_transformation(words, start, stop) {
 
 let words = ["cat", "hat", "bad", "had"],start = "bat",stop = "had";
 
-console.log(string_transformation(words, start, stop));
+console.log(string_transformation(words, start, stop)); //[ 'bat', 'hat', 'had' ]
 ```
 
 ##### Introduction, DFS and BFS :
