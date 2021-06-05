@@ -149,7 +149,25 @@ const C = (n, k) => {
 console.log(C(4, 2)); //6
 ```
 
-
+```javascript
+const combinations = (n, k) => {
+	if (n === k || n === 0 || k === 0) return 1;
+	return combinations(n - 1, k) + combinations(n - 1, k - 1);
+}
+var generate = function (numRows) {
+	let result = [];
+	for (let i = 0; i < numRows; i++) {
+		let currentresult = [];
+		for (let j = 0; j < i + 1; j++) {
+			let combinationOP = combinations(i, j);
+			currentresult.push(combinationOP);
+		}
+		result.push(currentresult);
+	}
+	return result;
+};
+console.log(generate(3)); // [ [ 1 ], [ 1, 1 ], [ 1, 2, 1 ] ]
+```
 #### Tower Of Hanoi - Need to disscuss with tutor
 - 	if (height >= 1) 
 -  time Complexity	O(2^n)
@@ -322,6 +340,7 @@ console.log(letterCasePermutation('a12b3'));
 const allSets = (input, position = 0, slate = [], result = []) => {
 	if (position >= input.length) {
 		result.push(slate.slice());
+		return slate;
 	} else {
 		let el = input[position];
 		slate.push(el);
@@ -434,8 +453,59 @@ const sumUpToTarget = (a, k, slate = [], sum = 0, result = [], position = 0) => 
 }
 console.log(sumUpToTarget([4,5,2], 6));
 //[ [ 4, 2 ] ]
+const canSum = (arr, target, n = arr.length, sum = 0, position = 0) => {
+    if (sum > target) return false;
+    if (sum === target) {
+        return true;
+    } else if (position < n) {
+        return canSum(arr, target, n, arr[position], position + 1) || canSum(arr, target, n, sum + arr[position], position + 1);
+    }
+}
+console.log(canSum([5, 3, 4, 7], 7));
 
+const canSumI = (arr, target, n = arr.length, sum = target, position = 0) => {
+    if (target===0) {
+        return true;
+    } else if (position < n) {
+        for (let i = position; i < n; i++) {
+           return canSumI(arr, target, n, sum + arr[i], position + 1);
+        }
+    }
+    return false;
+}
+
+let result = false;
+const canSumII = (arr, target, n = arr.length, sum = 0, position = 0) => {
+    if (sum === target) {
+        result = true;
+        return true;
+    } else if (position < n) {
+        for (let i = position; i < n; i++) {
+            canSumII(arr, target, n, sum + arr[i], position + 1);
+        }
+    }
+    return result;
+}
+console.log(canSumII([5, 3, 4, 7], 7)); //true
+console.log(canSumII([-5, -3, -4, -4], -7)); //true
+
+let result = false;
+const canSumIII = (arr, target, n = arr.length, sum = 0, position = 0) => {
+    if (sum === target) {
+        result = true;
+        return true;
+    } else if (position < n) {
+        for (let i = position; i < n; i++) {
+            canSumIII(arr, target, n, sum + arr[i], position + 1);
+        }
+    }
+    return result;
+
+}
+console.log(canSumIII([5, 3, 4, 7], 7)); //true
+console.log(canSumIII([-5, -3, -4, -4], -7)); //true
 ```
+- Print all valid Parenthesis;
 ```javascript
 const wellSortedBrackets = (n, slate = '', left, right, result = []) => {
 	// console.log(`n: ${n} slate: ${slate} left: ${left} right: ${right} result: ${result}`);
@@ -450,7 +520,51 @@ const wellSortedBrackets = (n, slate = '', left, right, result = []) => {
 }
 console.log(wellSortedBrackets(3, '', 3, 3, [])); //[ '((()))', '(()())', '(())()', '()(())', '()()()' ]
 ```
+- How Sum ?
 
+```javascript
+const result = [];
+const howSum = (arr, target, n = arr.length, sum = 0, position = 0, slate = []) => {
+    if (position > 0 && target === sum) {
+        result.push(slate.slice());
+        return slate;
+    } else if (position < n) {
+        slate.push(arr[position]);
+        let newTarget = sum + arr[position];
+        howSum(arr, target, n, newTarget, position + 1, slate);
+        slate.pop();
+        howSum(arr, target, n, sum, position + 1, slate);
+    }
+    return result;
+
+}
+console.log(`howSum`);
+// console.log(howSum([5, 3, 4, 7], 7)); // [ [ 3, 4 ], [ 7 ] ]
+
+const resultI = [];
+/*
+*Repetation Number , get all possiblity
+*/
+const howSumI = (arr, target, n = arr.length, sum = 0, position = 0, slate = [],memo={}) => {
+    if( memo[sum]) return memo[sum];
+    if (sum > target) return null;
+    if (position > 0 && target === sum) {
+        resultI.push(slate.slice());
+        return slate.slice();
+    } else if (position < n) {
+        for (let i = position; i < n; i++) {
+            let newTarget = sum + arr[i];
+            slate.push(arr[i]);
+            memo[newTarget] =  howSumI(arr, target, n, newTarget, position + 1, slate,memo);
+            slate.pop();
+        }
+    }
+    return resultI;
+}
+console.log(`howSumI`);
+console.log(howSumI([5, 3, 4, 7], 6)); // [[ 3, 3 ]]
+console.log(howSumI([5, 3, 4, 7], 7)); // Don't Use Memolixation [ [ 3, 4 ], [ 4, 3 ], [ 7 ] ] 
+```
 ##### N Queen Problem
 
 ```javascript
@@ -463,7 +577,7 @@ const isSafe = (mat, r, c) => {
 		}
 	}
 
-	// return 0 if two queens share the same `` diagonal
+	// return 0 if two queens share the same `\` diagonal
 	for (let i = r, j = c; i >= 0 && j >= 0; i--, j--) {
 		if (mat[i][j] == 'Q') {
 			return 0;

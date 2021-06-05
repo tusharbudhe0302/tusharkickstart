@@ -1,23 +1,16 @@
-var checkPowersOfThree = function(n) {
-    let pSet = new Set();
-    if(n == 1) return true;
-    while(n > 0) {
-        let l = Math.floor(Math.log(n) / Math.log(3)); 
-        if(l == 0 && n > 0) {
-            return false;
-        } else {
-            if(pSet.has(l)) {
-                return false;
-            }
-            pSet.add(l);
-            n = n - Math.pow(3, l);
-            
-            if(n == 0 || n == 1) {
-                return true;
-            }
-        }
-    }
-    
-    return n == 0;
+// const result = [];
+const minCoinsChange = (coins, k) => {
+	let table = new Array(k + 1).fill(null);
+	table[0] = 0;
+	for (let i = 1; i <= k; i++) {
+		for (let coin of coins) {
+			if (i - coin >= 0) {
+
+			}
+		}
+	}
+
+
 };
-console.log(checkPowersOfThree(12));
+console.log(minCoinsChange([1, 2, 5], 11)); // 3
+// Possible Combinations
