@@ -430,81 +430,93 @@ console.log(allSets([1, 2, 3]));
 ```
 #### Backtracking
 
-```javascript 
-/*
-* This Solution Only work with positive integres 
-*/
-const sumUpToTarget = (a, k, slate = [], sum = 0, result = [], position = 0) => {
-	if (sum > k) return;
-	if (position >= a.length) {
-		if (sum === k)
+- Combinatory Problems
+![Combinatory Problems](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/recursion/combinationsproblem.png)
+
+1. Can Sum is Equal to Target
+
+Note:  No need to verify unique or duplicate. Repeation not allowed.
+
+```javascript
+function check_if_sum_possible(arr, k) {
+	const helper = (a, target, n = a.length, position = 0, sum = 0, size = 0) => {
+		if (target === sum) {
+			if (size > 0) return true;
+		}
+		if (position === n) return false;
+		return helper(a, target, n, position + 1, sum, size) || helper(a, target, n, position + 1, sum + a[position], size + 1);
+	}
+	return helper(arr, k);
+}
+console.log(check_if_sum_possible([1,1,2,2,8],6));// true
+console.log(check_if_sum_possible([2,4,8],6));//true
+console.log(check_if_sum_possible([4,8],6));// false
+```
+
+2. How Sum is Equal to Target?
+
+ - Repeation not allowed. Need to check duplicate vs unique condition `i+1`
+
+```javascript
+var combinationSum2 = function(candidates, target) {
+	const result = [];
+	candidates.sort();
+	const getSum = (arr = []) => {
+		return arr.reduce((acc, num) => acc + num, 0)
+	}
+	const helper= (position = 0, slate = []) => {
+		const tempSum = getSum(slate); 
+// Don't Calcute Sum in advance as it's not have unique characters.
+		if (tempSum > target) {
+			return 0;
+		}
+
+		if (tempSum === target) {
 			result.push(slate.slice());
-	} else {
-		sum += a[position];
-		slate.push(a[position]);
-		if (sum <= k)
-			sumUpToTarget(a, k, slate, sum, result, position + 1);
-		sum -= slate.pop();
-		if (sum >= 0)
-			sumUpToTarget(a, k, slate, sum, result, position + 1);
+		}
+		for (let i = position; i < candidates.length; i++) {
+	if (candidates[i] === candidates[i - 1] && i !== position) continue;
+			slate.push(candidates[i]);
+			helper(i + 1, slate);//i+1
+			slate.pop();
+		}
+	}
+	combinationSum2DuplicateNumbersHelper();
+	return result;
+};
+
+//[10,1,2,7,6,1,5], target = 8// Not Unique Sort it.
+//[2,6,5], target = 8// [2,6]
+```
+ - Repeation allowed. Need to check duplicate vs unique condition
+
+```javascript
+var combinationSum = function(candidates, target) {
+	const result = [];
+	let maxLength = candidates.length;
+	const helper = (candidates, target, position = 0, slate = []) => {
+		if (target === 0) {
+			result.push(slate.slice());
+			return slate;
+		}
+		for (let i = position; i < maxLength; i++) {
+			if (target - candidates[i] >= 0) {
+				slate.push(candidates[i]);
+                  helper(candidates, target - candidates[i], i, slate);
+				slate.pop();
+			}
+		}
+		return result;
 	}
 
-	return result;
-}
-console.log(sumUpToTarget([4,5,2], 6));
-//[ [ 4, 2 ] ]
-const canSum = (arr, target, n = arr.length, sum = 0, position = 0) => {
-    if (sum > target) return false;
-    if (sum === target) {
-        return true;
-    } else if (position < n) {
-        return canSum(arr, target, n, arr[position], position + 1) || canSum(arr, target, n, sum + arr[position], position + 1);
-    }
-}
-console.log(canSum([5, 3, 4, 7], 7));
+	return helper(candidates, target);
+};
+// [2,3,6,7] target :7
+// OP:
 
-const canSumI = (arr, target, n = arr.length, sum = target, position = 0) => {
-    if (target===0) {
-        return true;
-    } else if (position < n) {
-        for (let i = position; i < n; i++) {
-           return canSumI(arr, target, n, sum + arr[i], position + 1);
-        }
-    }
-    return false;
-}
-
-let result = false;
-const canSumII = (arr, target, n = arr.length, sum = 0, position = 0) => {
-    if (sum === target) {
-        result = true;
-        return true;
-    } else if (position < n) {
-        for (let i = position; i < n; i++) {
-            canSumII(arr, target, n, sum + arr[i], position + 1);
-        }
-    }
-    return result;
-}
-console.log(canSumII([5, 3, 4, 7], 7)); //true
-console.log(canSumII([-5, -3, -4, -4], -7)); //true
-
-let result = false;
-const canSumIII = (arr, target, n = arr.length, sum = 0, position = 0) => {
-    if (sum === target) {
-        result = true;
-        return true;
-    } else if (position < n) {
-        for (let i = position; i < n; i++) {
-            canSumIII(arr, target, n, sum + arr[i], position + 1);
-        }
-    }
-    return result;
-
-}
-console.log(canSumIII([5, 3, 4, 7], 7)); //true
-console.log(canSumIII([-5, -3, -4, -4], -7)); //true
+// [[2,2,3],[7]]
 ```
+
 - Print all valid Parenthesis;
 ```javascript
 const wellSortedBrackets = (n, slate = '', left, right, result = []) => {
@@ -520,67 +532,7 @@ const wellSortedBrackets = (n, slate = '', left, right, result = []) => {
 }
 console.log(wellSortedBrackets(3, '', 3, 3, [])); //[ '((()))', '(()())', '(())()', '()(())', '()()()' ]
 ```
-- How Sum ?
 
-```javascript
-const result = [];
-const howSum = (arr, target, n = arr.length, sum = 0, position = 0, slate = []) => {
-    if (position > 0 && target === sum) {
-        result.push(slate.slice());
-        return slate;
-    } else if (position < n) {
-        slate.push(arr[position]);
-        let newTarget = sum + arr[position];
-        howSum(arr, target, n, newTarget, position + 1, slate);
-        slate.pop();
-        howSum(arr, target, n, sum, position + 1, slate);
-    }
-    return result;
-
-}
-console.log(`howSum`);
-// console.log(howSum([5, 3, 4, 7], 7)); // [ [ 3, 4 ], [ 7 ] ]
-
-const resultI = [];
-/*
-*Repetation Number , get all possiblity
-*/
-const howSumI = (arr, target, n = arr.length, sum = 0, position = 0, slate = [],memo={}) => {
-    if( memo[sum]) return memo[sum];
-    if (sum > target) return null;
-    if (position > 0 && target === sum) {
-        resultI.push(slate.slice());
-        return slate.slice();
-    } else if (position < n) {
-        for (let i = position; i < n; i++) {
-            let newTarget = sum + arr[i];
-            slate.push(arr[i]);
-            memo[newTarget] =  howSumI(arr, target, n, newTarget, position + 1, slate,memo);
-            slate.pop();
-        }
-    }
-    return resultI;
-}
-console.log(`howSumI`);
-console.log(howSumI([5, 3, 4, 7], 6)); // [[ 3, 3 ]]
-console.log(howSumI([5, 3, 4, 7], 7)); // Don't Use Memolixation [ [ 3, 4 ], [ 4, 3 ], [ 7 ] ] 
-var change = function(amount, coins) {
-	let n = coins.length;
-	const memo = new Map();
-	const changeHelper = (amount, position = 0) => {
-		let key = `${position}|${amount}`;
-		if (memo.has(key)) return memo.get(key);
-		if (amount === 0) return 1;
-		if (amount < 0 || position >= n) return 0;
-		let remaingAmount = amount - coins[position];
-		let result = changeHelper(remaingAmount, position) + changeHelper(amount, position + 1);
-		memo.set(key, result);
-		return result;
-	}
-	return changeHelper(amount, 0);
-};
-console.log(change(5, [1, 2, 5]));
-```
 ##### N Queen Problem
 
 ```javascript

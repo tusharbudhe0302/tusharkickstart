@@ -1,22 +1,11 @@
-const unboundedKnapsack1D = (values, weights, n, target) => {
-    // create a lookup table
-    // lookup[i] is going to store maximum value
-    // with knapsack capacity i.
-    const lookup = new Array(target + 1).fill(0);
-    // fill lookup[] using above recursive formula
-    for (let i = 0; i <= target; i++) {
-        for (let j = 0; j < n; j++) {
-            if (weights[j] <= i) {
-                let debug = lookup[i - weights[j]] + values[j];
-                lookup[i] = Math.max(lookup[i], debug);
-            }
-        }
-    }
-    //return the max
-    return lookup[target];
+function check_if_sum_possible(arr, k) {
+	const helper = (a, target, n = a.length, position = 0, sum = 0, size = 0) => {
+		if (target === sum) {
+			if (size > 0) return true;
+		}
+		if (position === n) return false;
+		return helper(a, target, n, position + 1, sum, size) || helper(a, target, n, position + 1, sum + a[position], size + 1);
+	}
+	return helper(arr, k);
 }
-
-const values = [1, 5, 8, 9];
-const weights = [1, 2, 3, 4];
-const target = 5;
-console.log(unboundedKnapsack1D(values, weights, values.length - 1, target)); //16
+console.log(check_if_sum_possible([2,4,8],6));
