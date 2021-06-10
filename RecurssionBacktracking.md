@@ -564,6 +564,22 @@ const howSumI = (arr, target, n = arr.length, sum = 0, position = 0, slate = [],
 console.log(`howSumI`);
 console.log(howSumI([5, 3, 4, 7], 6)); // [[ 3, 3 ]]
 console.log(howSumI([5, 3, 4, 7], 7)); // Don't Use Memolixation [ [ 3, 4 ], [ 4, 3 ], [ 7 ] ] 
+var change = function(amount, coins) {
+	let n = coins.length;
+	const memo = new Map();
+	const changeHelper = (amount, position = 0) => {
+		let key = `${position}|${amount}`;
+		if (memo.has(key)) return memo.get(key);
+		if (amount === 0) return 1;
+		if (amount < 0 || position >= n) return 0;
+		let remaingAmount = amount - coins[position];
+		let result = changeHelper(remaingAmount, position) + changeHelper(amount, position + 1);
+		memo.set(key, result);
+		return result;
+	}
+	return changeHelper(amount, 0);
+};
+console.log(change(5, [1, 2, 5]));
 ```
 ##### N Queen Problem
 
