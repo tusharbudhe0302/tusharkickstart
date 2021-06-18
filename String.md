@@ -324,6 +324,58 @@ console.log(minimum_windowII("AYZABOBECODXBANC", "ABC")); //BANC
 
 ```
 
+- Pairs of Plaindrome.
+
+```javascript
+const palindromePairs = (w) => {
+    let n = w.length;
+    let res = [];
+    let m = counter_uniqueValue_index(w); // unique string: index mapping
+    for (let i = 0; i < n; i++) {
+        let l = r = 0;
+        let sn = w[i].length;
+        let word = w[i];
+        while (l <= r) { // for each word, check all possible substrings to make palidrome, if exists in map
+            let subStrWord = word.substr(l, r - l);
+            let tmp = reverse2(subStrWord);
+            let j = m.get(tmp);
+            if (j != undefined && i != j) {
+                let checkPalindrome  = word.substr(l == 0 ? r : 0, l == 0 ? sn - r : l);
+                // console.log(`checkPalindrome: ${checkPalindrome}`);
+                if (isPalindrome(checkPalindrome)) {
+                    // console.log(`is Valid: ${checkPalindrome}`);
+                    l == 0 ? res.push([i, j]) : res.push([j, i]);
+                }
+            }
+            r < sn ? r++ : l++;
+        }
+    }
+    return res;
+};
+const counter_uniqueValue_index = (a_or_s) => {
+    let m = new Map();
+    let n = a_or_s.length;
+    for (let i = 0; i < n; i++) m.set(a_or_s[i], i);
+    return m;
+};
+const reverse2 = (s) => {
+    let res = "";
+    for (let i = s.length - 1; i >= 0; i--) {
+        res += s[i];
+    }
+    return res;
+};
+const isPalindrome = (s) => {
+    let n = s.length;
+    let i = 0;
+    let j = n - 1;
+    while (i < j) {
+        if (s[i++] != s[j--]) return false;
+    }
+    return true;
+};
+console.log(palindromePairs(["abcd", "dcba", "lls", "s", "sssll", "ac", "a","ba"])); // [ [ 0, 1 ], [ 1, 0 ], [ 3, 2 ], [ 2, 4 ], [ 5, 6 ], [ 6, 7 ] ]
+```
  - Implment suffix tree to find pattern
   1. Pattern searching
   2. Find longest repeated substring
@@ -397,5 +449,6 @@ console.log(minimum_windowII("AYZABOBECODXBANC", "ABC")); //BANC
 Question to ask in IK:
 
 1. Manachar’s Algorithm in Javascript Longest palindrome in a given string
+
 2. Aho Coarvick algorithm VS KMP
 

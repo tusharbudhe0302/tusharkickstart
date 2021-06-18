@@ -465,12 +465,11 @@ var combinationSum2 = function(candidates, target) {
 		return arr.reduce((acc, num) => acc + num, 0)
 	}
 	const helper= (position = 0, slate = []) => {
+		// Don't Calcute Sum in advance as it's not have unique characters.
 		const tempSum = getSum(slate); 
-// Don't Calcute Sum in advance as it's not have unique characters.
 		if (tempSum > target) {
 			return 0;
 		}
-
 		if (tempSum === target) {
 			result.push(slate.slice());
 		}
@@ -717,7 +716,7 @@ var numDecodings = function (s, position = 0) {
 	}
 
 };
-// console.log(numDecodings('226'));
-console.log(numDecodings('212'));
-// console.log(numDecodings('226'));
+// console.log(numDecodings('226')); //
+console.log(numDecodings('212')); //3
+// console.log(numDecodings('227')); //2
 ```
