@@ -90,14 +90,15 @@ var minCostClimbingStairs = function(cost) {
 
 
 1. Knapsack 0/1  Bounded knapsack: Items cannot be repeated.
+
 Problem statment: Given the weights and profit of ’N’ items, put these items in a knapsack of capacity ‘W’ to get the maximum total value in the knapsack. Either Can pick item or execute item.
 Formula:
 `  if(weights[i-1] <= j) Vector(i,weight) = Math.max(Vector[i-1][j], profit[i]+ Vector[i-1][j - weight[i-1]]) `
 Approach : There are two options for each weight, it can be included inside the knapsack or not.  We calculate the maximum value obtained by either including or excluding the weight.
 
-    - Subset Sum Problem
-    - Equal Sum Partition problem
-    - Target Sum
+   - Subset Sum Problem
+   - Equal Sum Partition problem
+   - Target Sum
 
 ![Bounded knapsack](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/boundedknapsack.PNG)
 
@@ -176,9 +177,9 @@ Formula:
 `if(weights[i] <= j) Vector(i,weight) = Math.max(Vector[i][j], profit[i]+ Vector[i][j - weight[i]])`
 Aproach: In 0/1 Knapsack we either include or exclude a value but in Unbounded we can include it again and again as repetitions are allowed. We calculate the maximum value by either including or excluding the value and repeating the subproblem until the capacity is 0.
 
-    - Coin Change Problem
-    - Rod Cutting Problem
-    - Maximum Product Cutting
+- Coin Change Problem
+- Rod Cutting Problem
+- Maximum Product Cutting
 
 ![Un-Bounded knapsack](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/unboundedknapsack.PNG)
 
@@ -207,14 +208,15 @@ console.log(unboundedKnapsack1D([2, 10, 12], [1, 2, 3], 5)); // 22 10+12
 ```
 
 3. Longest Common Subsequence
+
 Problem Statement: Given two sequences, find the length of the longest subsequence present in both of them.
 Formula: `if (X[i - 1] == Y[j - 1])L[i][j] = L[i - 1][j - 1] + 1 else L[i][j] = Math.max(L[i - 1][j], L[i][j - 1])`
 Approach: A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous. We compare each character of the string and reduce the problem into subproblems and calculate the maximum possible value obtained by the subproblems.
 
-    - Longest Common Substring
-    - Shortest Common Supersequence
-    - Longest Palindromic Subsequence
-    - Longest Repeating Subsequence
+   - Longest Common Substring
+   - Shortest Common Supersequence
+   - Longest Palindromic Subsequence
+   - Longest Repeating Subsequence
 
 ```javascript
 const longestCommonSequence = (X, Y) => {
@@ -241,13 +243,14 @@ console.log(longestCommonSequence(str1, str2))
 ```
 
 4. Egg Dropping Problem
+
 Problem Statement: You are given ‘K’ eggs and you have access to a building with ’N’ floors. Each egg is identical in function, and if an egg breaks, you cannot drop it again.
 Formula: `1 + Math.max(edd_drop_dp(n - 1, x - 1), edd_drop_dp(n, k - x));`
 Approach : In each move we have two choices: the egg breaks / the egg doesn’t break
 
-    - Matrix Chain Multiplication
-    - Word Break
-    - Palindromic Partitioning
+- Matrix Chain Multiplication
+- Word Break
+- Palindromic Partitioning
 
 ```javascript
 const edd_drop_dp = (n, k) => {
@@ -297,15 +300,14 @@ console.log(edd_drop_dp_table(3, 3)); //2
 
 
 5. DP with Grid — Unique Paths
+
 Problem Statement : Count all the possible paths from top left to the bottom right of the matrix with the constraints that from each cell you can either move only to right or down.
 Formula: `dp[i][j] = dp[i-1][j] + dp[i][j-1]`
 Approach: In this type of problem, we create a table and initialize the first row and first column value as 1 and each cell value is calculated by adding the values of the left cell and top cell.
 
-![Count UniQue Path of Grid](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/gridCountPath.PNG)
-
-    - Rat in a Maze Problem
-    - Minimum Cost to Cover the given positions in a grid
-    - Maximum size square sub-matrix with all 1s
+- Rat in a Maze Problem
+- Minimum Cost to Cover the given positions in a grid
+- Maximum size square sub-matrix with all 1s
 
 ```javascript
 const countUniquePathTabulization =(m,n) =>{
@@ -340,6 +342,7 @@ const countUniquePath = (m, n, memo = {}) => {
 
 console.log(countUniquePath(5, 5)); // 70
 ```
+![Count UniQue Path of Grid](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/gridCountPath.PNG)
 
 - MaxPath travel by robot
 
