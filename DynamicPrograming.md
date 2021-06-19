@@ -51,7 +51,7 @@ console.log(fibonacciSeriesIII(7)); //8 Time: O(n) Space: O(1) iterative solutio
 - [Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
 
 ```javascript
-const minCostClimbingStairs = (n) => {
+const climbingStairs = (n) => {
 	let table = new Array(3).fill(0);
 	table[0] = 0; // i%3===0 --> index 0
 	table[1] = 1; // i%3===1 --> index 1
@@ -65,7 +65,7 @@ const minCostClimbingStairs = (n) => {
 	console.log(table);
 	return table[n%3]; // Index Of result got stored.
 }
-console.log(minCostClimbingStairs(7)); //8 Time: O(n) Space: O(1) iterative solution
+console.log(costClimbingStairs(7)); //8 Time: O(n) Space: O(1) iterative solution
 ```
 
 - [Minimum Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
@@ -89,16 +89,15 @@ var minCostClimbingStairs = function(cost) {
 
 
 
-- 1. Knapsack 0/1  Bounded knapsack: Items cannot be repeated.
+1. Knapsack 0/1  Bounded knapsack: Items cannot be repeated.
 Problem statment: Given the weights and profit of ’N’ items, put these items in a knapsack of capacity ‘W’ to get the maximum total value in the knapsack. Either Can pick item or execute item.
 Formula:
 `  if(weights[i-1] <= j) Vector(i,weight) = Math.max(Vector[i-1][j], profit[i]+ Vector[i-1][j - weight[i-1]]) `
 Approach : There are two options for each weight, it can be included inside the knapsack or not.  We calculate the maximum value obtained by either including or excluding the weight.
 
-Examples:
-	Subset Sum Problem
-	Equal Sum Partition problem
-	Target Sum
+    - Subset Sum Problem
+    - Equal Sum Partition problem
+    - Target Sum
 
 ![Bounded knapsack](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/boundedknapsack.PNG)
 
@@ -177,9 +176,9 @@ Formula:
 `if(weights[i] <= j) Vector(i,weight) = Math.max(Vector[i][j], profit[i]+ Vector[i][j - weight[i]])`
 Aproach: In 0/1 Knapsack we either include or exclude a value but in Unbounded we can include it again and again as repetitions are allowed. We calculate the maximum value by either including or excluding the value and repeating the subproblem until the capacity is 0.
 
-Coin Change Problem
-Rod Cutting Problem
-Maximum Product Cutting
+    - Coin Change Problem
+    - Rod Cutting Problem
+    - Maximum Product Cutting
 
 ![Un-Bounded knapsack](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/unboundedknapsack.PNG)
 
@@ -211,6 +210,12 @@ console.log(unboundedKnapsack1D([2, 10, 12], [1, 2, 3], 5)); // 22 10+12
 Problem Statement: Given two sequences, find the length of the longest subsequence present in both of them.
 Formula: `if (X[i - 1] == Y[j - 1])L[i][j] = L[i - 1][j - 1] + 1 else L[i][j] = Math.max(L[i - 1][j], L[i][j - 1])`
 Approach: A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous. We compare each character of the string and reduce the problem into subproblems and calculate the maximum possible value obtained by the subproblems.
+
+    - Longest Common Substring
+    - Shortest Common Supersequence
+    - Longest Palindromic Subsequence
+    - Longest Repeating Subsequence
+
 ```javascript
 const longestCommonSequence = (X, Y) => {
     let m = X.length;
@@ -235,16 +240,14 @@ let str2 = "GXTXAYB";
 console.log(longestCommonSequence(str1, str2))
 ```
 
-Longest Common Substring
-Shortest Common Supersequence
-Longest Palindromic Subsequence
-Longest Repeating Subsequence
-
 4. Egg Dropping Problem
 Problem Statement: You are given ‘K’ eggs and you have access to a building with ’N’ floors. Each egg is identical in function, and if an egg breaks, you cannot drop it again.
+Formula: `1 + Math.max(edd_drop_dp(n - 1, x - 1), edd_drop_dp(n, k - x));`
 Approach : In each move we have two choices: the egg breaks / the egg doesn’t break
 
-Formula: `1 + Math.max(edd_drop_dp(n - 1, x - 1), edd_drop_dp(n, k - x));`
+    - Matrix Chain Multiplication
+    - Word Break
+    - Palindromic Partitioning
 
 ```javascript
 const edd_drop_dp = (n, k) => {
@@ -299,6 +302,10 @@ Formula: `dp[i][j] = dp[i-1][j] + dp[i][j-1]`
 Approach: In this type of problem, we create a table and initialize the first row and first column value as 1 and each cell value is calculated by adding the values of the left cell and top cell.
 
 ![Count UniQue Path of Grid](https://github.com/tusharbudhe0302/tusharkickstart/blob/master/images/dp/gridCountPath.PNG)
+
+    - Rat in a Maze Problem
+    - Minimum Cost to Cover the given positions in a grid
+    - Maximum size square sub-matrix with all 1s
 
 ```javascript
 const countUniquePathTabulization =(m,n) =>{

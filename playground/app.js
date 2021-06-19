@@ -1,55 +1,39 @@
-const edd_drop_dp = (n, k) => {
-    if (k <= 1) return k;
-    if (n === 1) return k;
-    let min = Number.MAX_VALUE;
-    let res;
-    for (let x = 1; x <= k; x++) {
-        res = 1 + Math.max(edd_drop_dp(n - 1, x - 1), edd_drop_dp(n, k - x));
-        if (res < min) {
-            min = res;
-        }
-    }
-    return min;
-}
+/*
+ * Complete the 'wordBreakCount' function below.
+ *
+ * The function accepts STRING_ARRAY dictionary as parameter
+ * and the original string txt on which segmentation is to be 
+ * performed.
+ * The function returns the count of all possible segmentation 
+ */
 
-const edd_drop_dp_table = (n, k) => {
-    /* A 2D table where entry eggFloor[i][j]
- will represent minimum number of trials
-needed for i eggs and j floors. */
-    let eggFloor = new Array(n + 1);
-    for (let i = 0; i < (n + 1); i++) {
-        eggFloor[i] = new Array(k + 1);
-    }
-    let res;
-    let i, j, x;
-
-    // We need one trial for one floor and
-    // 0 trials for 0 floors
-    for (i = 1; i <= n; i++) {
-        eggFloor[i][1] = 1;
-        eggFloor[i][0] = 0;
-    }
-
-    // We always need j trials for one egg
-    // and j floors.
-    for (j = 1; j <= k; j++)
-        eggFloor[1][j] = j;
-
-    // Fill rest of the entries in table using
-    // optimal substructure property
-    for (i = 2; i <= n; i++) {
-        for (j = 2; j <= k; j++) {
-            eggFloor[i][j] = Number.MAX_VALUE;
-            for (x = 1; x <= j; x++) {
-                res = 1 + Math.max(
-                    eggFloor[i - 1][x - 1],
-                    eggFloor[i][j - x]);
-                if (res < eggFloor[i][j])
-                    eggFloor[i][j] = res;
+function wordBreakCount(dictionary, txt) {
+    // Write your code here
+    //initialize a hash map to optimize word search
+    let dict = new Set(dictionary);
+    //initialize a variable to run modulo operation
+    let mod = Math.pow(10, 9) + 7
+    //count the length of the max word in the dictionary
+    let maxWord = dictionary.reduce((max, curr) => {
+        max = Math.max(max, curr.length);
+        return max
+    }, 0)
+    //initialize the bottom-up dp table with a length of the txt plus 1, adding one to start the first cell an empty string
+    let dp = new Array(txt.length + 1).fill(0)
+    //initialize the dp table from the right (instead of left) and set the val = 1
+    dp[txt.length] = 1
+    //iterate with two pointers i, j (i is the left and j is right pointer).
+    //Go from right to left
+    for (let i = txt.length - 1; i >= 0; i--) {
+        for (let j = i + 1; j <= txt.length && j - i <= maxWord; j++) {
+            if (dict.has(txt.substring(i, j))) {
+                dp[i] += dp[j]
+                dp[i] %= mod;
             }
         }
     }
-    // eggFloor[n][k] holds the result
-    return eggFloor[n][k];
+
+    return dp[0]
+
 }
-console.log(edd_drop_dp_table(3, 3)); //2
+console.log(wordBreakCount(["kick", "start", "kickstart", "is", "awe", "some", "awesome"], "kickstartisawesome"));
