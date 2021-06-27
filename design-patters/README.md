@@ -120,9 +120,11 @@ These patterns deal with object creation mechanisms which optimize object creati
     ```
 
 - Structural/Modular Design Patterns
+
 These patterns deal with object relationships. They ensure that if one part of a system changes, the entire system doesn’t need to change along with it. The most popular patterns in this category are:
 
     - using the immediate invoke function expression(IIFE)
+
     ```javascript
     var counterIncremental = (function() {
     	var counter = 0;
@@ -134,7 +136,9 @@ These patterns deal with object relationships. They ensure that if one part of a
     console.log(counterIncremental()); //2
     console.log(counterIncremental()); //3
     ```
+
     - Using closer
+
     ```javascript
      var collection = (function() {
  	var objects = [];
@@ -161,6 +165,7 @@ These patterns deal with object relationships. They ensure that if one part of a
     collection.removeObject("Tushar");
     console.log(collection.getObjects()); // [ 'Kimi', 'Udantika' ]
     ```
+    
 1. Adapter
 2. Bridge
 3. Composite/Modular
