@@ -1,25 +1,26 @@
-var invoker = {
-    add: function (x, y) {
-        return x + y;
-    },
-    subtract: function (x, y) {
-        return x - y;
-    }
-}
-
-// the object which is used as an abstraction layer when
-// executing commands; it represents an interface
-// toward the invoker object
-var manager = {
-    execute: function (name, args) {
-        if (name in invoker) {
-            return invoker[name].apply(invoker, [].slice.call(arguments,1));
+/**
+ * @param {number} num
+ * @return {string}
+ */
+ var intToRoman = function(num) {
+    let map = {1:"I", 5:"V", 10:"X", 50:"L", 100:"C", 500: "D", 1000:"M", 4: "IV", 9: "IX", 40: "XL", 90: "XC", 400: "CD", 900: "CM"};
+    let res = "";
+    let quotient = 0;
+    let divisors = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
+    let divisor = divisors.pop();
+    while (num > 0) {
+        if (num >= divisor) {
+            quotient = Math.floor(num / divisor);
+            num = num % divisor;
+            res += map[divisor].repeat(quotient);
+        } else {
+            divisor = divisors.pop();
         }
-        return false;
     }
-}
+    return res;
+    // T.C: O(1)
+    // S.C: O(1)
+};
 
-// prints 8
-console.log(manager.execute("add", 3, 5));
-// prints 2
-console.log(manager.execute("subtract", 5, 3));
+console.log(intToRoman(11));
+// console.log(intToRoman(9));
