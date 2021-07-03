@@ -301,3 +301,414 @@ var consecutiveNumbersSum = function (N) {
   return count;
 };
 ```
+
+- 268. Missing Number
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+// Cycle Sort
+var missingNumber = function (nums) {
+  let n = nums.length;
+  for (let i = 0; i <= n; i++) {
+    while (nums[i] != i) {
+      let index = nums[i];
+      if (index <= n) {
+        [nums[i], nums[index]] = [nums[index], nums[i]];
+      } else {
+        break;
+      }
+    }
+  }
+  // console.log(nums);
+  for (let i = 0; i <= n; i++) {
+    if (nums[i] != i) return i;
+  }
+  return n;
+};
+var missingNumber = function (nums) {
+  let xOr = nums.length;
+  let n = nums.length;
+
+  for (let i = 0; i < n; i++) {
+    xOr ^= i ^ nums[i];
+  }
+  return xOr;
+};
+var missingNumber = function (nums) {
+  let maxSum = nums.length;
+  let expectedSum = Math.floor(maxSum * ((maxSum + 1) / 2));
+  let actualSum = 0;
+  for (let num of nums) actualSum += num;
+  return expectedSum - actualSum;
+};
+```
+
+- 442. Find All Duplicates in an Array
+
+```javascript
+var findDisappearedNumbers = function (nums) {
+  let n = nums.length;
+  for (let i = 0; i <= n; i++) {
+    while (nums[i] != i + 1) {
+      let index = nums[i] - 1;
+      if (index <= n && nums[index] != nums[i]) {
+        [nums[i], nums[index]] = [nums[index], nums[i]];
+      } else {
+        break;
+      }
+    }
+  }
+  console.log(nums);
+  let result = [];
+  for (let i = 0; i <= n; i++) {
+    if (nums[i] != i + 1) result.push(i + 1);
+  }
+  return result;
+};
+console.log(findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1]));
+```
+
+- 41. First Missing Positive
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var firstMissingPositive = function (nums) {
+  let n = nums.length;
+  for (let i = 0; i < n; i++) {
+    while (nums[i] != i + 1) {
+      let index = nums[i] - 1;
+      if (index < n && nums[index] != nums[i] && nums[i] > 0) {
+        [nums[index], nums[i]] = [nums[i], nums[index]];
+      } else {
+        break;
+      }
+    }
+  }
+  for (let i = 0; i <= n; i++) {
+    if (nums[i] != i + 1) {
+      return i + 1;
+    }
+  }
+  return n;
+};
+```
+
+- 969. Pancake Sorting
+
+```javascript
+var pancakeSort = function (arr) {
+  var result = [];
+  var key = arr.length; //index of the unsorted leading number
+  while (key > 0) {
+    while (arr[key - 1] !== key) {
+      //whether there is a sorted leading number in leading position or not.
+      let index = arr.indexOf(key); //if not, starting to sort
+      if (index == 0) {
+        arr = arr.slice(0, key).reverse().concat(arr.slice(key));
+        result.push(key);
+      } else {
+        arr = arr
+          .slice(0, index + 1)
+          .reverse()
+          .concat(arr.slice(index + 1));
+        result.push(index + 1);
+      }
+    }
+    key--; //if there is, check the next small number
+  }
+  return result;
+};
+```
+
+- 277. Find the Celebrity
+
+```javascript
+/**
+ * Definition for knows()
+ *
+ * @param {integer} person a
+ * @param {integer} person b
+ * @return {boolean} whether a knows b
+ * knows = function(a, b) {
+ *     ...
+ * };
+ */
+
+/**
+ * @param {function} knows()
+ * @return {function}
+ */
+var solution = function (knows) {
+  /**
+   * @param {integer} n Total people
+   * @return {integer} The celebrity
+   */
+
+  return function (n) {
+    let candidate = 0;
+    // rule out n-1 people
+    for (let i = 0; i < n; i++) {
+      if (candidate == i) continue;
+      if (knows(candidate, i)) {
+        candidate = i;
+      }
+    }
+
+    // check if this candidate is the celebrity
+    for (let i = 0; i < n; i++) {
+      if (candidate == i) continue;
+      if (knows(candidate, i) || !knows(i, candidate)) {
+        return -1;
+      }
+    }
+    return candidate;
+  };
+};
+```
+
+- 221. Maximal Square
+
+```javascript
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalSquare = function (matrix) {
+  let m = matrix.length;
+  let n = matrix[0].length;
+  let table = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) {
+    table[i] = new Array(n).fill(0);
+  }
+  let globalMax = 0;
+  for (let row = 0; row < m; row++) {
+    if (matrix[row][0] == "1") {
+      table[row][0] = 1;
+      globalMax = 1;
+    }
+  }
+  for (let col = 0; col < n; col++) {
+    if (matrix[0][col] == "1") {
+      table[0][col] = 1;
+      globalMax = 1;
+    }
+  }
+  for (let r = 1; r < m; r++) {
+    for (let c = 1; c < n; c++) {
+      if (matrix[r][c] == "1") {
+        table[r][c] =
+          Math.min(table[r - 1][c - 1], table[r][c - 1], table[r - 1][c]) + 1;
+        globalMax = Math.max(globalMax, table[r][c]);
+      }
+    }
+  }
+  return globalMax * globalMax;
+};
+```
+
+- 1480. Running Sum of 1d Array
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var runningSum = function (nums) {
+  let n = nums.length;
+  let prefixSum = new Array(n).fill(0);
+  let sum = 0;
+  for (let i = 0; i < n; i++) {
+    sum += nums[i];
+    prefixSum[i] = sum;
+  }
+  return prefixSum;
+};
+var runningSum = function (nums) {
+  let sum = nums[0];
+  let n = nums.length;
+  for (let i = 1; i < n; i++) {
+    sum += nums[i];
+    nums[i] = sum;
+  }
+  return nums;
+};
+```
+
+- 303. Range Sum Query - Immutable
+
+```javascript
+var NumArray = function (nums) {
+  let n = nums.length;
+  this.prefixSum = new Array(n).fill(0);
+  let sum = 0;
+  nums.map((x, i) => {
+    sum += nums[i];
+    this.prefixSum[i] = sum;
+  });
+};
+
+/**
+ * @param {number} left
+ * @param {number} right
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function (left, right) {
+  if (left === 0) return this.prefixSum[right];
+  return this.prefixSum[right] - this.prefixSum[left - 1];
+};
+```
+
+- 560. Subarray Sum Equals K
+
+```javascript
+var subarraySum = function (nums, k) {
+  if (nums === null || nums.length === 0) {
+    return 0;
+  }
+  let m = new Map(),
+    prefixSum = 0,
+    count = 0;
+  // there could be a subarray[0...j] with a sum of k
+  m.set(prefixSum, 1);
+  for (let i = 0; i < nums.length; i++) {
+    prefixSum += nums[i];
+    if (m.has(prefixSum - k)) {
+      count += m.get(prefixSum - k);
+    }
+    m.set(prefixSum, m.get(prefixSum) + 1 || 1);
+  }
+  return count;
+  // T.C: O(N)
+  // S.C: O(N)
+};
+```
+
+- 974. Subarray Sums Divisible by K
+
+```javascript
+var subarraysDivByK = function (nums, k) {
+  if (nums === null || nums.length === 0) {
+    return 0;
+  }
+  let prefixSum = 0,
+    m = new Map(),
+    count = 0;
+  m.set(0, 1);
+  for (let i = 0; i < nums.length; i++) {
+    prefixSum = (prefixSum + nums[i]) % k;
+    if (prefixSum < 0) prefixSum += k;
+    if (m.has(prefixSum)) count += m.get(prefixSum);
+    m.set(prefixSum, m.get(prefixSum) + 1 || 1);
+  }
+  //  console.log(m);
+  return count;
+  // T.C: O(N)
+  // S.C: O(N)
+};
+```
+
+- 1524. Number of Sub-arrays With Odd Sum
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var numOfSubarrays = function (arr) {
+  const map = {};
+  map["even"] = 0;
+  map["odd"] = 0;
+  let n = arr.length;
+  let prefixSum = 0;
+  let total = 0;
+  for (let i = 0; i < n; i++) {
+    prefixSum = prefixSum + arr[i];
+    if (prefixSum % 2 == 1) {
+      total += map["odd"];
+    } else {
+      total += map["even"];
+    }
+    total = total % (10 ** 9 + 7);
+    if (prefixSum % 2 == 0) {
+      map["even"] = map["even"] + 1;
+    } else {
+      map["odd"] = map["odd"] + 1;
+    }
+  }
+  // console.log(map);
+  return (map["odd"] * map["even"] + map["odd"]) % (10 ** 9 + 7);
+};
+```
+
+- 525. Contiguous Array
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxLength = function (nums) {
+  let map = new Map();
+  let n = nums.length;
+  let sum = 0;
+  let longest = 0;
+  for (let i = 0; i < n; i++) {
+    let num = nums[i] === 0 ? -1 : 1;
+    sum += num;
+    if (sum == 0) {
+      longest = Math.max(longest, i + 1);
+    } else if (map.has(sum)) {
+      longest = Math.max(longest, i - map.get(sum));
+    } else {
+      map.set(sum, i);
+    }
+  }
+  return longest;
+};
+```
+
+- 523. Continuous Subarray Sum
+
+```javascript
+var checkSubarraySum = function (nums, k) {
+  let m = new Map();
+  let cumSum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    cumSum += nums[i];
+    if (cumSum % k === 0 || cumSum === 0) {
+      if (i + 1 >= 2) {
+        return true;
+      }
+    }
+    if (m.has(cumSum % k)) {
+      let subarrLen = i - (m.get(cumSum % k) + 1) + 1;
+      if (subarrLen >= 2) {
+        return true;
+      }
+    } else {
+      m.set(cumSum % k, i);
+    }
+  }
+  return false;
+  // T.C: O(N)
+  // S.C: O(N)
+};
+var checkSubarraySum = function (nums, k) {
+  let prefixSum = nums[0];
+  let n = nums.length;
+  const map = new Set();
+  map.add(0);
+  for (let i = 1; i < n; i++) {
+    prefixSum = (prefixSum + nums[i]) % k;
+    if (map.has(prefixSum)) return true;
+    else map.add(prefixSum);
+  }
+  return true;
+};
+```
