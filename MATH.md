@@ -59,6 +59,69 @@ S = (n/2) × (2a + (n−1)d)
 - **Note** - Ө(n^2) = O(n^2) & O(n^2) != Ө(n^2)
   If the running time of an algorithm is Ө(n), that means it roughly runs in time cn for some constant c. If the running time of an algorithm is O(n), that means it runs in time at most c’n for some constant c’. This means if T(n) = Ө(n^2), then T(n) is also O(n^2). - 2log2n is (assuming log has a base of 2) : n - log2(2^h) : h
 
+### Problems Topics
+
+1. Liner Time Intervals
+2. Cycle Sort
+3. Decrese & Conquer
+4. Prefix Sum
+
+- 759. Employee Free Time
+
+```javascript
+/**
+ * // Definition for an Interval.
+ * function Interval(start, end) {
+ *    this.start = start;
+ *    this.end = end;
+ * };
+ */
+
+/**
+ * @param {Interval[][]} schedule
+ * @return {Interval[]}
+ */
+var employeeFreeTime = function (schedule) {
+  let start = [];
+  let end = [];
+  for (let employee of schedule) {
+    for (let interval of employee) {
+      start.push(interval.start);
+      end.push(interval.end);
+    }
+  }
+  start.sort((a, b) => a - b);
+  end.sort((a, b) => a - b);
+  let preEnd = Infinity;
+  let freeTime = [];
+  for (let i = 0; i < start.length; i++) {
+    if (start[i] > preEnd) {
+      freeTime.push(new Interval(preEnd, start[i]));
+    }
+    preEnd = end[i];
+  }
+  return freeTime;
+};
+```
+
+- 56. Merge Intervals
+
+```javascript
+var merge = function (intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  let res = [];
+  for (let i of intervals.sort((a, b) => a[0] - b[0])) {
+    // Sort the intervals
+    if (i[0] <= res?.[res.length - 1]?.[1])
+      // We have an overlap (start of current is less than or equal to merged's end)
+      res[res.length - 1][1] = Math.max(res[res.length - 1][1], i[1]);
+    // Update the end of our merged interval with current's end
+    else res.push(i); // No overlap, push current interval
+  }
+  return res;
+};
+```
+
 - Genrate Spelling from Word.
 
 ```javascript
